@@ -196,11 +196,19 @@ h1, h2, h3, h4 {
    (var(--font-montserrat)), scoped to this subtree only. */
 .fold-headline {
   font-family: var(--font-montserrat), "Montserrat", sans-serif;
-  font-weight: 700;
-  font-size: clamp(2.6rem, min(5.5vw, 8.4vh), 6.8rem);
-  line-height: 1.04;
-  letter-spacing: -0.03em;
+  font-weight: 800;
+  font-style: normal;
+  /* Sized empirically (measured actual wrapped line counts at several
+     viewport widths, not estimated) so the full flowing sentence never
+     exceeds 3 lines, down to a 360px-wide phone. */
+  font-size: clamp(0.85rem, 3.8vw, 1rem);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
+}
+
+.fold-headline * {
+  font-style: normal;
 }
 
 /* From md: up, the headline shares the fold with the hero video (~46-50%
@@ -209,8 +217,8 @@ h1, h2, h3, h4 {
    first fold's height. */
 @media (min-width: 768px) {
   .fold-headline {
-    font-size: clamp(2.2rem, min(3.7vw, 6.4vh), 4.8rem);
-    line-height: 1.08;
+    font-size: clamp(1.1rem, 1.5vw, 1.6rem);
+    line-height: 1.3;
   }
 }
 

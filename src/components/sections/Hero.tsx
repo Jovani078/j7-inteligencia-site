@@ -8,9 +8,9 @@ import { usePreload } from "@/lib/preload-context";
 import { montserrat } from "@/lib/fonts";
 import { WHATSAPP_LINK } from "@/lib/constants";
 
-// Headline: 2 sentences, first white, second electric (see JSX below).
-const HEADLINE_LINE_1 = "SEU CLIENTE CHEGA PRONTO PRA COMPRAR.";
-const HEADLINE_LINE_2 = "SUA DEMORA PRA RESPONDER NO WHATSAPP FAZ ELE COMPRAR DO CONCORRENTE.";
+// Headline now flows as a single paragraph (see JSX below) — text lives
+// directly in the markup so specific words can be wrapped in a colored
+// span, instead of being built from line constants.
 const SUBHEADLINE =
   "Você investe para o cliente chegar até você. Mas se ele chama no WhatsApp e demora para ser atendido, a venda pode ir direto para o concorrente. A J7 estrutura atendimento, IA e automação para você responder, qualificar e conduzir cada oportunidade com mais velocidade e organização.";
 // Giant translucent word layered between the canvas and the foreground text.
@@ -27,8 +27,7 @@ export default function Hero() {
   const bgWordFloatRef = useRef<HTMLDivElement>(null);
   const scrollDotRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
-  const line1Ref = useRef<HTMLSpanElement>(null);
-  const line2Ref = useRef<HTMLSpanElement>(null);
+  const headlineRef = useRef<HTMLHeadingElement>(null);
   const sideRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const progressRef = useRef(0);
@@ -57,10 +56,8 @@ export default function Hero() {
         return;
       }
 
-      const splits = [line1Ref, line2Ref].map((ref) =>
-        SplitText.create(ref.current, { type: "words", mask: "words" }),
-      );
-      const words = splits.flatMap((split) => split.words);
+      const split = SplitText.create(headlineRef.current, { type: "words", mask: "words" });
+      const words = split.words;
 
       gsap.set(bgWordRef.current, { opacity: 0, xPercent: -18 });
       gsap.set(words, { yPercent: 110, opacity: 0 });
@@ -212,13 +209,10 @@ export default function Hero() {
             mobile (video sits below it, see next block); on desktop it's
             capped to ~46% width so it never runs under the video. */}
         <div className="relative z-10 px-6 md:max-w-[50%] md:px-14 lg:max-w-[47%] lg:px-20">
-          <h1 className="fold-headline break-words text-porcelain">
-            <span ref={line1Ref} className="block">
-              {HEADLINE_LINE_1}
-            </span>
-            <span ref={line2Ref} className="block text-electric">
-              {HEADLINE_LINE_2}
-            </span>
+          <h1 ref={headlineRef} className="fold-headline break-words text-porcelain">
+            Seu cliente chega <span className="text-electric">pronto pra comprar</span>. Sua
+            demora no <span className="text-electric">WhatsApp</span> faz ele comprar do{" "}
+            <span className="text-electric">concorrente</span>.
           </h1>
         </div>
 
