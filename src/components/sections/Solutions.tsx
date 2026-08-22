@@ -39,6 +39,14 @@ const SLIDES = [
   },
   {
     n: "03",
+    title: "Aquisição de clientes",
+    desc: "Colocamos sua empresa diante de quem já está procurando uma solução.",
+    items: ["Atrair", "Capturar", "Qualificar", "Acompanhar", "Converter"],
+    cta: "Quero atrair novos clientes",
+    image: "/images/aquisicao-funil.webp",
+  },
+  {
+    n: "04",
     title: "Automações empresariais",
     desc: "Elimine tarefas repetitivas e conecte toda a operação.",
     items: [
@@ -61,7 +69,7 @@ const STEP = 3.6;
 
 // One background tone per lamina — subtle blue-black variations within the
 // existing ink/graphite range, not new brand colors.
-const LAMINA_BG = ["#050505", "#080d17", "#0a1220"];
+const LAMINA_BG = ["#050505", "#080d17", "#0a1220", "#050608"];
 
 export default function Solutions() {
   const pinRef = useRef<HTMLDivElement>(null);
@@ -98,7 +106,7 @@ export default function Solutions() {
           scrollTrigger: {
             trigger: pinRef.current,
             start: "top top",
-            end: "+=3600",
+            end: "+=4800",
             scrub: 1,
             pin: true,
             anticipatePin: 1,
