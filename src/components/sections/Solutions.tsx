@@ -5,7 +5,6 @@ import Image from "next/image";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { WHATSAPP_LINK } from "@/lib/constants";
-import AcquisitionFunnel from "./AcquisitionFunnel";
 
 const SLIDES = [
   {
@@ -40,14 +39,6 @@ const SLIDES = [
   },
   {
     n: "03",
-    title: "Aquisição de clientes",
-    desc: "Colocamos sua empresa diante de quem já está procurando uma solução.",
-    items: ["Atrair", "Capturar", "Qualificar", "Acompanhar", "Converter"],
-    cta: "Quero atrair novos clientes",
-    image: "/images/aquisicao-funil.webp",
-  },
-  {
-    n: "04",
     title: "Automações empresariais",
     desc: "Elimine tarefas repetitivas e conecte toda a operação.",
     items: [
@@ -69,10 +60,8 @@ const SLIDES = [
 const STEP = 3.6;
 
 // One background tone per lamina — subtle blue-black variations within the
-// existing ink/graphite range, not new brand colors. The last stop matches
-// AcquisitionFunnel's own background exactly, so the handoff into it (right
-// after lamina 04) is seamless instead of a visible cut.
-const LAMINA_BG = ["#050505", "#080d17", "#0a1220", "#050608"];
+// existing ink/graphite range, not new brand colors.
+const LAMINA_BG = ["#050505", "#080d17", "#0a1220"];
 
 export default function Solutions() {
   const pinRef = useRef<HTMLDivElement>(null);
@@ -109,7 +98,7 @@ export default function Solutions() {
           scrollTrigger: {
             trigger: pinRef.current,
             start: "top top",
-            end: "+=4800",
+            end: "+=3600",
             scrub: 1,
             pin: true,
             anticipatePin: 1,
@@ -179,8 +168,7 @@ export default function Solutions() {
   }, []);
 
   return (
-    <>
-      <section id="solucoes" ref={pinRef} className="relative bg-ink md:h-screen md:overflow-hidden">
+    <section id="solucoes" ref={pinRef} className="relative bg-ink md:h-screen md:overflow-hidden">
         {SLIDES.map((slide, i) => (
           <div
             key={slide.n}
@@ -227,8 +215,5 @@ export default function Solutions() {
           </div>
         ))}
       </section>
-
-      <AcquisitionFunnel />
-    </>
   );
 }
