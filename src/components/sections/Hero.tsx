@@ -8,14 +8,11 @@ import { usePreload } from "@/lib/preload-context";
 import { montserrat } from "@/lib/fonts";
 import { WHATSAPP_LINK } from "@/lib/constants";
 
-// Headline: 4 fixed lines, first two white, last two lime (see JSX below).
-const HEADLINE_LINE_1 = "ENQUANTO SUA EMPRESA";
-const HEADLINE_LINE_2 = "FAZ TUDO NO BRAÇO,";
-const HEADLINE_LINE_3 = "SEU CONCORRENTE";
-const HEADLINE_LINE_4 = "CRESCE COM IA.";
-const IMPACT_LINE = "AUTOMATIZE. VENDA MAIS. SAIA NA FRENTE.";
+// Headline: 2 sentences, first white, second electric (see JSX below).
+const HEADLINE_LINE_1 = "SEU CLIENTE CHEGA PRONTO PRA COMPRAR.";
+const HEADLINE_LINE_2 = "SUA DEMORA PRA RESPONDER NO WHATSAPP FAZ ELE COMPRAR DO CONCORRENTE.";
 const SUBHEADLINE =
-  "A J7 Inteligência implementa atendimento inteligente, automações e sistemas para sua empresa responder mais rápido, reduzir o trabalho manual e transformar mais oportunidades em vendas.";
+  "Você investe para o cliente chegar até você. Mas se ele chama no WhatsApp e demora para ser atendido, a venda pode ir direto para o concorrente. A J7 estrutura atendimento, IA e automação para você responder, qualificar e conduzir cada oportunidade com mais velocidade e organização.";
 // Giant translucent word layered between the canvas and the foreground text.
 // Swap these strings to change the background typographic element.
 const BACKGROUND_WORD_LINE_1 = "INTELIGÊNCIA";
@@ -32,8 +29,6 @@ export default function Hero() {
   const textRef = useRef<HTMLDivElement>(null);
   const line1Ref = useRef<HTMLSpanElement>(null);
   const line2Ref = useRef<HTMLSpanElement>(null);
-  const line3Ref = useRef<HTMLSpanElement>(null);
-  const line4Ref = useRef<HTMLSpanElement>(null);
   const sideRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const progressRef = useRef(0);
@@ -62,7 +57,7 @@ export default function Hero() {
         return;
       }
 
-      const splits = [line1Ref, line2Ref, line3Ref, line4Ref].map((ref) =>
+      const splits = [line1Ref, line2Ref].map((ref) =>
         SplitText.create(ref.current, { type: "words", mask: "words" }),
       );
       const words = splits.flatMap((split) => split.words);
@@ -217,18 +212,12 @@ export default function Hero() {
             mobile (video sits below it, see next block); on desktop it's
             capped to ~46% width so it never runs under the video. */}
         <div className="relative z-10 px-6 md:max-w-[50%] md:px-14 lg:max-w-[47%] lg:px-20">
-          <h1 className="fold-headline text-porcelain">
+          <h1 className="fold-headline break-words text-porcelain">
             <span ref={line1Ref} className="block">
               {HEADLINE_LINE_1}
             </span>
-            <span ref={line2Ref} className="block">
+            <span ref={line2Ref} className="block text-electric">
               {HEADLINE_LINE_2}
-            </span>
-            <span ref={line3Ref} className="block text-electric">
-              {HEADLINE_LINE_3}
-            </span>
-            <span ref={line4Ref} className="block text-electric">
-              {HEADLINE_LINE_4}
             </span>
           </h1>
         </div>
@@ -239,11 +228,7 @@ export default function Hero() {
             it's irrelevant since the video is absolutely positioned. */}
         <div className="relative z-10 px-6 md:max-w-[50%] md:px-14 lg:max-w-[47%] lg:px-20">
           <div className="fold-copy">
-            <p data-hero-fade className="fold-impact mt-5 text-porcelain md:mt-6">
-              {IMPACT_LINE}
-            </p>
-
-            <p data-hero-fade className="mt-3 max-w-xl text-sm text-porcelain/75 md:mt-4 md:text-base">
+            <p data-hero-fade className="mt-5 max-w-xl text-sm text-porcelain/75 md:mt-6 md:text-base">
               {SUBHEADLINE}
             </p>
 
@@ -254,7 +239,7 @@ export default function Hero() {
                 external
                 className="hero-cta-pulse"
               >
-                QUERO COLOCAR IA NA MINHA EMPRESA
+                QUERO PARAR DE PERDER CLIENTE PRA CONCORRÊNCIA
               </MagneticButton>
             </div>
           </div>
