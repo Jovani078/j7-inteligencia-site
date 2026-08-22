@@ -3,7 +3,7 @@ import RevealText from "@/components/ui/RevealText";
 
 const AUTHORITY = [
   "Mais de 3 anos no mercado digital",
-  "Mais de R$ 160 mil gerados com a agência em apenas um ano",
+  "Mais de R$ 320 mil gerados com a agência em apenas um ano",
   "Mais de R$ 30 mil investidos em mentorias, cursos e network com quem já está no mercado",
   "Experiência prática em atendimento, vendas e operação",
   "Implementações personalizadas para empresas",
