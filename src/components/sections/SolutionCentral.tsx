@@ -62,7 +62,7 @@ export default function SolutionCentral() {
   }, []);
 
   return (
-    <section className="bg-ink px-6 py-28 md:px-14 lg:px-20">
+    <section id="solucoes" className="bg-ink px-6 py-28 md:px-14 lg:px-20">
       <div className="mx-auto max-w-6xl text-center">
         <span className="mb-6 block font-mono text-xs uppercase tracking-[0.3em] text-electric">
           003 / A solução
