@@ -5,7 +5,7 @@ import Counter, { CounterHandle } from "@/components/ui/Counter";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 
 const STATS = [
-  { value: 140, prefix: "+", suffix: " mil", label: "Gerados com operações digitais" },
+  { value: 160, prefix: "+", suffix: " mil", label: "Gerados com operações digitais" },
   { value: 24, suffix: "/7", label: "Possibilidade de atendimento automatizado" },
   { value: 3, prefix: "+", suffix: " anos", label: "Atuando com estratégia e tecnologia" },
   { value: 5, decimals: 1, decimalComma: true, label: "Avaliação no Google" },
@@ -53,12 +53,20 @@ export default function Counters() {
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
-            const p = self.progress;
-            counterRefs.current.forEach((c) => c?.setProgress(p));
-            if (p >= 0.98 && !pulsed) {
+            // Count finishes at 85% of the pin's scroll distance, not 100%.
+            // Real scrolling (momentum, trackpad/wheel step sizes) almost
+            // never lands on the exact literal pixel end of a trigger, so
+            // mapping the full 0→1 count directly to raw progress meant it
+            // would visibly stop a digit short (e.g. 24 landing on 23,
+            // 5,0 landing on 4,8) whenever the user's scroll settled at,
+            // say, 96% instead of 100%. Finishing early gives a buffer so
+            // the exact final value is reliably reached and then held.
+            const countP = Math.min(self.progress / 0.85, 1);
+            counterRefs.current.forEach((c) => c?.setProgress(countP));
+            if (countP >= 1 && !pulsed) {
               pulsed = true;
               counterRefs.current.forEach((c) => c?.pulse());
-            } else if (p < 0.98) {
+            } else if (countP < 1) {
               pulsed = false;
             }
           },
