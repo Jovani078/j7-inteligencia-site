@@ -28,7 +28,6 @@ export default function Hero() {
   const scrollDotRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
-  const sideRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const progressRef = useRef(0);
 
@@ -40,9 +39,6 @@ export default function Hero() {
     if (!ready || !sectionRef.current || !circleRef.current || !textRef.current) return;
 
     const rest = textRef.current.querySelectorAll("[data-hero-fade]");
-    const sideEls = sideRef.current
-      ? sideRef.current.querySelectorAll("[data-hero-side]")
-      : [];
 
     const ctx = gsap.context(() => {
       // The preloader already performed the circular-reveal transition —
@@ -52,7 +48,6 @@ export default function Hero() {
       if (prefersReducedMotion()) {
         gsap.set(bgWordRef.current, { opacity: 1, xPercent: 0 });
         gsap.set(rest, { y: 0, opacity: 1 });
-        gsap.set(sideEls, { opacity: 1, x: 0 });
         return;
       }
 
@@ -62,13 +57,11 @@ export default function Hero() {
       gsap.set(bgWordRef.current, { opacity: 0, xPercent: -18 });
       gsap.set(words, { yPercent: 110, opacity: 0 });
       gsap.set(rest, { y: 24, opacity: 0 });
-      gsap.set(sideEls, { opacity: 0, x: 12 });
 
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
       tl.to(bgWordRef.current, { opacity: 1, xPercent: 0, duration: 1.3 })
         .to(words, { yPercent: 0, opacity: 1, duration: 1, stagger: 0.035 }, "-=0.9")
-        .to(rest, { y: 0, opacity: 1, duration: 0.8, stagger: 0.12 }, "-=0.5")
-        .to(sideEls, { opacity: 1, x: 0, duration: 0.7, stagger: 0.08 }, "-=0.3");
+        .to(rest, { y: 0, opacity: 1, duration: 0.8, stagger: 0.12 }, "-=0.5");
     }, sectionRef);
 
     return () => ctx.revert();
@@ -175,7 +168,7 @@ export default function Hero() {
     <section
       id="top"
       ref={sectionRef}
-      className="relative min-h-screen w-full overflow-hidden bg-ink md:h-screen"
+      className="relative h-screen w-full overflow-hidden bg-ink"
     >
       <div
         ref={circleRef}
@@ -186,6 +179,10 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-ink/40" />
       </div>
 
+      {/* Ambient giant word — kept for continuity with the rest of the
+          scroll-driven layers below, but now sits behind the full-bleed
+          video (z-0 vs the video's z-[1]) and is no longer visible; left
+          in place rather than deleted since it wasn't part of this pass. */}
       <div
         ref={bgWordRef}
         aria-hidden="true"
@@ -201,32 +198,58 @@ export default function Hero() {
         </div>
       </div>
 
+      {/* Full-bleed background video — replaces the previous right-docked
+          panel. Poster omitted: no still frame was available to generate
+          one from (no ffmpeg in this environment) — the clip is small
+          (1.2MB) and starts playing quickly, but a poster would remove any
+          first-paint gap if one gets added later. */}
+      <div className="absolute inset-0 z-[1]" aria-hidden="true">
+        <video
+          ref={videoRef}
+          className="h-full w-full object-cover"
+          style={{
+            objectPosition: "center",
+            filter: "contrast(1.05) saturate(0.92) brightness(0.9)",
+          }}
+          src="/videos/hero.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        />
+      </div>
+
+      {/* Directional overlay — stronger over the text side, softer toward
+          the right, keeps the video visible while guaranteeing contrast. */}
+      <div
+        className="pointer-events-none absolute inset-0 z-[2]"
+        style={{
+          background:
+            "linear-gradient(90deg, rgba(10,14,20,0.92) 0%, rgba(10,14,20,0.55) 45%, rgba(10,14,20,0.75) 100%)",
+        }}
+      />
+
       <div
         ref={textRef}
-        className={`relative z-10 flex flex-col justify-start pt-32 pb-16 md:h-full md:justify-[safe_center] md:pt-24 md:pb-16 ${montserrat.variable}`}
+        className={`relative z-10 flex h-full flex-col items-center justify-center px-6 text-center ${montserrat.variable}`}
       >
-        {/* Left column, part 1: badge + headline. Kept in normal flow on
-            mobile (video sits below it, see next block); on desktop it's
-            capped to ~46% width so it never runs under the video. */}
-        <div className="relative z-10 px-6 md:max-w-[50%] md:px-14 lg:max-w-[47%] lg:px-20">
-          <h1 ref={headlineRef} className="fold-headline break-words text-porcelain">
+        <div className="mx-auto w-full max-w-3xl md:max-w-[78%] lg:max-w-4xl">
+          <h1 ref={headlineRef} className="fold-headline break-words text-center text-porcelain">
             Seu cliente chega <span className="text-electric">pronto pra comprar</span>. Sua
             demora no <span className="text-electric">WhatsApp</span> faz ele comprar do{" "}
             <span className="text-electric">concorrente</span>.
           </h1>
-        </div>
 
-        {/* Left column, part 2: impact line, subheadline, CTAs. On mobile
-            this now comes before the video (badge/headline -> copy/CTA ->
-            video), matching the requested mobile reading order; on desktop
-            it's irrelevant since the video is absolutely positioned. */}
-        <div className="relative z-10 px-6 md:max-w-[50%] md:px-14 lg:max-w-[47%] lg:px-20">
           <div className="fold-copy">
-            <p data-hero-fade className="mt-5 max-w-xl text-sm text-porcelain/75 md:mt-6 md:text-base">
+            <p
+              data-hero-fade
+              className="mx-auto mt-5 max-w-xl text-sm text-porcelain/75 md:mt-6 md:text-base"
+            >
               {SUBHEADLINE}
             </p>
 
-            <div data-hero-fade className="mt-6 flex flex-wrap gap-4 md:mt-8">
+            <div data-hero-fade className="mt-6 flex flex-wrap justify-center gap-4 md:mt-8">
               <MagneticButton
                 href={WHATSAPP_LINK}
                 variant="primary"
@@ -240,7 +263,7 @@ export default function Hero() {
 
           <div
             data-hero-fade
-            className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-2 text-sm text-porcelain/60"
+            className="mt-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-sm text-porcelain/60"
           >
             <span className="flex items-center gap-2">
               <span className="text-electric">★★★★★</span> 5,0 no Google
@@ -248,55 +271,6 @@ export default function Hero() {
             <span>8 avaliações reais</span>
             <span>Atendimento para empresas em todo o Brasil</span>
           </div>
-        </div>
-
-        {/* Hero video — normal flow after the copy/CTA on mobile,
-            absolutely docked to the right 55% on desktop (md:). Its edges
-            fade into the background via mask-image instead of a hard crop;
-            see .hero-video-fade-h / -v in globals.css. Sits below the
-            headline/copy in stacking (z-0) so text always wins on overlap,
-            and is pointer-events-none so it never blocks CTA clicks. */}
-        <div
-          data-hero-fade
-          className="pointer-events-none relative z-0 mt-8 h-[42svh] w-full md:absolute md:top-0 md:right-0 md:mt-0 md:h-full md:w-[55%]"
-        >
-          <div className="hero-video-fade-h h-full w-full">
-            <div className="hero-video-fade-v h-full w-full">
-              <video
-                ref={videoRef}
-                className="h-full w-full object-cover"
-                style={{
-                  objectPosition: "center",
-                  filter: "contrast(1.05) saturate(0.92) brightness(0.9)",
-                }}
-                src="/videos/hero.mp4"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="auto"
-                aria-hidden="true"
-              />
-            </div>
-          </div>
-          {/* Cinematographic overlay — separate from the mask, paints a
-              color wash on top of the video so it reads as part of the
-              page background rather than a pasted-in clip. */}
-          <div className="hero-video-overlay-h pointer-events-none absolute inset-0" />
-          <div className="hero-video-overlay-v pointer-events-none absolute inset-0" />
-        </div>
-      </div>
-
-      <div
-        ref={sideRef}
-        className="pointer-events-none absolute inset-0 z-10 hidden lg:block"
-        aria-hidden="true"
-      >
-        <div
-          data-hero-side
-          className="absolute top-1/2 left-4 -translate-y-1/2 -rotate-90 font-mono text-[10px] uppercase tracking-[0.3em] text-porcelain/40"
-        >
-          J7 Inteligência
         </div>
       </div>
 
