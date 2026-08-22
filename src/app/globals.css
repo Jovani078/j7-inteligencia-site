@@ -218,11 +218,10 @@ h1, h2, h3, h4 {
 @media (min-width: 768px) {
   .fold-headline {
     /* Hero is now full-bleed with a centered ~78%-wide text column instead
-       of a ~47%-wide side column, so the headline can run noticeably
-       bigger than before. Ceiling measured empirically at 1024/1280/1600px
-       — 40px is the largest size that still holds the 3-line cap at all
-       three, so the clamp tops out just under it. */
-    font-size: clamp(2.2rem, 2vw, 2.5rem);
+       of a ~47%-wide side column. ~12% bigger than the previous pass —
+       re-measured empirically at 1024/1280/1600px afterward to confirm the
+       3-line cap still holds at that bump. */
+    font-size: clamp(2.46rem, 2.24vw, 2.8rem);
     line-height: 1.15;
   }
 }

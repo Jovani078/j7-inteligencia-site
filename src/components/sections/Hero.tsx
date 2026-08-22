@@ -18,6 +18,20 @@ const SUBHEADLINE =
 const BACKGROUND_WORD_LINE_1 = "INTELIGÊNCIA";
 const BACKGROUND_WORD_LINE_2 = "ARTIFICIAL";
 
+// Official Google "G" mark (4-color icon only, no wordmark — avoids any
+// font-licensing concern) used next to the review line to signal it's a
+// real Google rating.
+function GoogleIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+      <path fill="#4285F4" d="M22.1 12.2c0-.7-.06-1.4-.18-2.1H12v4h5.66a4.85 4.85 0 0 1-2.1 3.2v2.6h3.4c2-1.83 3.14-4.53 3.14-7.7Z" />
+      <path fill="#34A853" d="M12 22c2.83 0 5.2-.93 6.96-2.53l-3.4-2.6c-.94.63-2.15 1-3.56 1-2.73 0-5.05-1.84-5.88-4.32H2.62v2.68A10 10 0 0 0 12 22Z" />
+      <path fill="#FBBC05" d="M6.12 13.55A6 6 0 0 1 5.8 12c0-.54.1-1.06.32-1.55V7.77H2.62A10 10 0 0 0 1.6 12c0 1.6.38 3.1 1.02 4.23l3.5-2.68Z" />
+      <path fill="#EA4335" d="M12 5.98c1.54 0 2.92.53 4 1.56l3-3C17.2 2.7 14.83 1.8 12 1.8a10 10 0 0 0-9.38 5.97l3.5 2.68C6.95 7.8 9.27 5.98 12 5.98Z" />
+    </svg>
+  );
+}
+
 export default function Hero() {
   const { ready } = usePreload();
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -232,7 +246,7 @@ export default function Hero() {
 
       <div
         ref={textRef}
-        className={`relative z-10 flex h-full flex-col items-center justify-center px-6 text-center ${montserrat.variable}`}
+        className={`relative z-10 flex h-full flex-col items-center justify-center px-6 pt-28 text-center md:pt-32 ${montserrat.variable}`}
       >
         <div className="mx-auto w-full max-w-3xl md:max-w-[78%] lg:max-w-4xl">
           <h1 ref={headlineRef} className="fold-headline break-words text-center text-porcelain">
@@ -266,7 +280,8 @@ export default function Hero() {
             className="mt-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-sm text-porcelain/60"
           >
             <span className="flex items-center gap-2">
-              <span className="text-electric">★★★★★</span> 5,0 no Google
+              <GoogleIcon />
+              <span style={{ color: "#FBBC04" }}>★★★★★</span> 5,0 no Google
             </span>
             <span>8 avaliações reais</span>
             <span>Atendimento para empresas em todo o Brasil</span>
