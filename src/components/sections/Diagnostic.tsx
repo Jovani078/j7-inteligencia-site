@@ -49,7 +49,7 @@ export default function Diagnostic() {
       <div className="mx-auto grid max-w-6xl gap-16 md:grid-cols-[1fr_1.2fr]">
         <div>
           <span className="mb-6 block font-mono text-xs uppercase tracking-[0.3em] text-electric">
-            009 / Diagnóstico
+            010 / Diagnóstico
           </span>
           <RevealText
             as="h2"

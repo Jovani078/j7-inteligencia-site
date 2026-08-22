@@ -15,7 +15,7 @@ export default function GoogleReviews() {
     <section className="bg-ink px-6 py-28 md:px-14 lg:px-20">
       <div className="mx-auto max-w-4xl">
         <span className="mb-6 block font-mono text-xs uppercase tracking-[0.3em] text-electric">
-          008 / Prova social
+          009 / Prova social
         </span>
         <div className="flex flex-wrap items-end justify-between gap-6">
           <RevealText

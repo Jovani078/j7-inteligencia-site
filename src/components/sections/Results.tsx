@@ -95,7 +95,7 @@ export default function Results() {
     <section id="resultados" className="bg-ink py-28">
       <div className="mx-auto max-w-6xl px-6 md:px-14 lg:px-20">
         <span className="mb-6 block font-mono text-xs uppercase tracking-[0.3em] text-electric">
-          006 / Resultados
+          007 / Resultados
         </span>
         <RevealText
           as="h2"

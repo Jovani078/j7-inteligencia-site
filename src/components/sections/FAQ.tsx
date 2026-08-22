@@ -60,7 +60,7 @@ export default function FAQ() {
     <section className="bg-ink px-6 py-28 md:px-14 lg:px-20">
       <div className="mx-auto max-w-3xl">
         <span className="mb-6 block font-mono text-xs uppercase tracking-[0.3em] text-electric">
-          010 / Perguntas frequentes
+          011 / Perguntas frequentes
         </span>
         <RevealText as="h2" className="font-heading text-3xl font-bold text-porcelain md:text-4xl">
           Perguntas frequentes

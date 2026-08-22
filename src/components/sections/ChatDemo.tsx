@@ -92,7 +92,7 @@ export default function ChatDemo() {
     <section className="bg-ink px-6 py-28 md:px-14 lg:px-20">
       <div className="mx-auto max-w-5xl">
         <span className="mb-6 block font-mono text-xs uppercase tracking-[0.3em] text-whatsapp">
-          005 / Na prática
+          006 / Na prática
         </span>
         <RevealText
           as="h2"

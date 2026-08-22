@@ -30,7 +30,7 @@ export default function About() {
 
         <div>
           <span className="mb-6 block font-mono text-xs uppercase tracking-[0.3em] text-electric">
-            007 / Quem está por trás
+            008 / Quem está por trás
           </span>
           <RevealText
             as="h2"

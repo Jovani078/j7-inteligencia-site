@@ -102,7 +102,7 @@ export default function HowItWorks() {
     >
       <div className="mx-auto max-w-4xl">
         <span className="mb-6 block font-mono text-xs uppercase tracking-[0.3em] text-electric">
-          004 / O processo
+          005 / O processo
         </span>
         <RevealText
           as="h2"
