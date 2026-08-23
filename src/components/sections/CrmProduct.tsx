@@ -104,6 +104,43 @@ export default function CrmProduct() {
         }
       );
 
+      // Mobile mockup gets its own one-shot 360° "card flip" entrance instead
+      // of the plain fade the other device visual gets — full rotateY on
+      // desktop (needs the parent's perspective to read as a flip, not a
+      // flat squash), simplified to fade+scale on small screens where a
+      // full 3D spin tends to look janky rather than elegant.
+      const mobileVisual = sectionRef.current!.querySelector("[data-mobile-visual]");
+      if (mobileVisual) {
+        const mm = gsap.matchMedia();
+        mm.add("(min-width: 768px)", () => {
+          gsap.fromTo(
+            mobileVisual,
+            { opacity: 0, scale: 0.85, rotateY: 0 },
+            {
+              opacity: 1,
+              scale: 1,
+              rotateY: 360,
+              duration: 1,
+              ease: "power2.out",
+              scrollTrigger: { trigger: mobileVisual, start: "top 80%", toggleActions: "play none none reverse" },
+            }
+          );
+        });
+        mm.add("(max-width: 767px)", () => {
+          gsap.fromTo(
+            mobileVisual,
+            { opacity: 0, scale: 0.85 },
+            {
+              opacity: 1,
+              scale: 1,
+              duration: 0.8,
+              ease: "power2.out",
+              scrollTrigger: { trigger: mobileVisual, start: "top 82%", toggleActions: "play none none reverse" },
+            }
+          );
+        });
+      }
+
       const urgency = sectionRef.current!.querySelector("[data-urgency]");
       if (urgency) {
         gsap.fromTo(
@@ -188,14 +225,17 @@ export default function CrmProduct() {
         </div>
 
         <div className="mt-16 grid items-center gap-10 md:grid-cols-2">
-          <div data-device-visual className="relative mx-auto w-full max-w-[260px]">
+          <div
+            data-mobile-visual
+            className="relative z-10 mx-auto w-full max-w-[320px] [perspective:1200px]"
+          >
             <Image
               src="/images/j7crm-mobile-mockup.png"
               alt="J7 CRM funcionando no celular"
               width={941}
               height={1672}
-              sizes="(min-width: 768px) 260px, 200px"
-              className="h-auto w-full"
+              sizes="(min-width: 768px) 320px, 260px"
+              className="h-auto w-full [filter:drop-shadow(0_30px_50px_rgba(0,0,0,0.65))]"
             />
           </div>
           <div data-device-visual className="relative mx-auto w-full max-w-[280px]">
