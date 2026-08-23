@@ -38,9 +38,57 @@ const FEATURES = [
   },
 ];
 
+// Drives the "lift toward the viewer" hover effect via GSAP + direct style
+// writes instead of a CSS `:hover` rule. A CSS `:hover` rule cannot win this
+// fight: GSAP's scroll-entrance animations leave an inline `transform` on
+// these elements after they finish (e.g. `transform: translate(0px, 0px)`),
+// and inline styles always beat a stylesheet selector — including `:hover`
+// — for the same property, short of `!important`. Confirmed by inspecting
+// the live `style` attribute before/after a real hover: the CSS approach's
+// `transform: scale(...)` silently never applied. Routing the hover state
+// through the same engine that owns the inline style (GSAP for transform,
+// direct `el.style` writes for the rest) sidesteps the conflict entirely.
+function attachHoverLift(
+  el: HTMLElement,
+  opts: {
+    scale: number;
+    shadowRest: string;
+    shadowHover: string;
+    zIndexHover: string;
+    borderRest?: string;
+    borderHover?: string;
+    bgRest?: string;
+    bgHover?: string;
+  }
+) {
+  if (typeof window === "undefined" || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    return () => {};
+  }
+  const onEnter = () => {
+    gsap.to(el, { scale: opts.scale, duration: 0.3, ease: "power2.out" });
+    el.style.zIndex = opts.zIndexHover;
+    el.style.filter = opts.shadowHover;
+    if (opts.borderHover) el.style.borderColor = opts.borderHover;
+    if (opts.bgHover) el.style.backgroundColor = opts.bgHover;
+  };
+  const onLeave = () => {
+    gsap.to(el, { scale: 1, duration: 0.3, ease: "power2.out" });
+    el.style.zIndex = "1";
+    el.style.filter = opts.shadowRest;
+    if (opts.borderRest) el.style.borderColor = opts.borderRest;
+    if (opts.bgRest) el.style.backgroundColor = opts.bgRest;
+  };
+  el.addEventListener("mouseenter", onEnter);
+  el.addEventListener("mouseleave", onLeave);
+  return () => {
+    el.removeEventListener("mouseenter", onEnter);
+    el.removeEventListener("mouseleave", onLeave);
+  };
+}
+
 export default function CrmProduct() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const hoverCleanupRef = useRef<(() => void) | null>(null);
+  const hoverCleanupRef = useRef<(() => void)[]>([]);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -77,7 +125,7 @@ export default function CrmProduct() {
         }
       );
 
-      const cards = sectionRef.current!.querySelectorAll("[data-feature-card]");
+      const cards = sectionRef.current!.querySelectorAll<HTMLElement>("[data-feature-card]");
       gsap.fromTo(
         cards,
         { opacity: 0, y: 30 },
@@ -90,8 +138,22 @@ export default function CrmProduct() {
           scrollTrigger: { trigger: cards[0], start: "top 82%", toggleActions: "play none none reverse" },
         }
       );
+      cards.forEach((card) => {
+        hoverCleanupRef.current.push(
+          attachHoverLift(card, {
+            scale: 1.03,
+            shadowRest: "none",
+            shadowHover: "drop-shadow(0 0 24px rgba(47,128,237,0.35))",
+            zIndexHover: "20",
+            borderRest: "rgba(255,255,255,0.1)",
+            borderHover: "rgba(47,128,237,0.6)",
+            bgRest: "rgba(5,5,5,0.4)",
+            bgHover: "rgba(47,128,237,0.1)",
+          })
+        );
+      });
 
-      const deviceImgs = sectionRef.current!.querySelectorAll("[data-device-visual]");
+      const deviceImgs = sectionRef.current!.querySelectorAll<HTMLElement>("[data-device-visual]");
       gsap.fromTo(
         deviceImgs,
         { opacity: 0, y: 30 },
@@ -104,6 +166,16 @@ export default function CrmProduct() {
           scrollTrigger: { trigger: deviceImgs[0], start: "top 82%", toggleActions: "play none none reverse" },
         }
       );
+      deviceImgs.forEach((img) => {
+        hoverCleanupRef.current.push(
+          attachHoverLift(img, {
+            scale: 1.1,
+            shadowRest: "drop-shadow(0 16px 24px rgba(0,0,0,0.4))",
+            shadowHover: "drop-shadow(0 40px 60px rgba(0,0,0,0.75))",
+            zIndexHover: "30",
+          })
+        );
+      });
 
       // Mobile mockup gets its own one-shot 360° "card flip" entrance instead
       // of the plain fade the other device visual gets — full rotateY on
@@ -146,25 +218,14 @@ export default function CrmProduct() {
         // scale) once the spin finishes, and only lifts when a real mouse
         // hovers it. Gated on pointer capability (not the width breakpoint
         // above), since a touch device can still be >=768px wide (tablets).
-        if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-          const el = mobileVisual as HTMLElement;
-          const onEnter = () => {
-            gsap.to(el, { scale: 1.1, duration: 0.3, ease: "power2.out" });
-            el.style.zIndex = "30";
-            el.style.filter = "drop-shadow(0 40px 60px rgba(0,0,0,0.75))";
-          };
-          const onLeave = () => {
-            gsap.to(el, { scale: 1, duration: 0.3, ease: "power2.out" });
-            el.style.zIndex = "1";
-            el.style.filter = "drop-shadow(0 16px 24px rgba(0,0,0,0.4))";
-          };
-          el.addEventListener("mouseenter", onEnter);
-          el.addEventListener("mouseleave", onLeave);
-          hoverCleanupRef.current = () => {
-            el.removeEventListener("mouseenter", onEnter);
-            el.removeEventListener("mouseleave", onLeave);
-          };
-        }
+        hoverCleanupRef.current.push(
+          attachHoverLift(mobileVisual as HTMLElement, {
+            scale: 1.1,
+            shadowRest: "drop-shadow(0 16px 24px rgba(0,0,0,0.4))",
+            shadowHover: "drop-shadow(0 40px 60px rgba(0,0,0,0.75))",
+            zIndexHover: "30",
+          })
+        );
       }
 
       const urgency = sectionRef.current!.querySelector("[data-urgency]");
@@ -184,8 +245,8 @@ export default function CrmProduct() {
     }, sectionRef);
 
     return () => {
-      hoverCleanupRef.current?.();
-      hoverCleanupRef.current = null;
+      hoverCleanupRef.current.forEach((cleanup) => cleanup());
+      hoverCleanupRef.current = [];
       ctx.revert();
     };
   }, []);
@@ -246,7 +307,7 @@ export default function CrmProduct() {
             <div
               key={f.title}
               data-feature-card
-              className="feature-card-hover rounded-2xl border border-white/10 bg-ink/40 p-6"
+              className="hover-lift rounded-2xl border border-white/10 bg-ink/40 p-6"
             >
               <h3 className="font-heading text-xl font-bold text-porcelain">{f.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-porcelain/65">{f.pain}</p>
@@ -257,7 +318,7 @@ export default function CrmProduct() {
         <div className="mt-16 grid items-center gap-10 md:grid-cols-2">
           <div
             data-mobile-visual
-            className="relative z-[1] mx-auto w-full max-w-[320px] [perspective:1200px] [transition:filter_0.3s_ease] [filter:drop-shadow(0_16px_24px_rgba(0,0,0,0.4))]"
+            className="hover-lift relative z-[1] mx-auto w-full max-w-[320px] [perspective:1200px] [filter:drop-shadow(0_16px_24px_rgba(0,0,0,0.4))]"
           >
             <Image
               src="/images/j7crm-mobile-mockup.png"
@@ -268,7 +329,10 @@ export default function CrmProduct() {
               className="h-auto w-full"
             />
           </div>
-          <div data-device-visual className="relative mx-auto w-full max-w-[280px]">
+          <div
+            data-device-visual
+            className="hover-lift relative z-[1] mx-auto w-full max-w-[280px] [filter:drop-shadow(0_16px_24px_rgba(0,0,0,0.4))]"
+          >
             <Image
               src="/images/j7crm-login-mockup.png"
               alt="Tela de login do J7 CRM"

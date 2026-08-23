@@ -299,26 +299,22 @@ h1, h2, h3, h4 {
   animation-delay: 0.3s;
 }
 
-/* J7 CRM feature cards — hover lift + blue glow. Scoped to devices with a
-   real mouse (hover: hover) and fine pointer precision, not just Tailwind's
-   plain `:hover` (which this project's compiled output confirms has no
-   automatic touch-device scoping) — otherwise the effect gets "stuck" on
-   touchscreens after a tap, since there's no mouse-leave event to clear it. */
-.feature-card-hover {
+/* J7 CRM section — hover-lift transition helper. The actual hover state
+   (scale/z-index/filter/border/background) is driven from JS
+   (attachHoverLift in CrmProduct.tsx), not a CSS `:hover` rule: these
+   elements carry a GSAP-owned inline `transform` left over from their
+   scroll-entrance animation, and inline styles always beat a stylesheet
+   `:hover` selector for the same property — a plain CSS `:hover { transform:
+   scale(...) }` here would silently never apply. This class only supplies
+   the transition timing so those JS-driven style writes animate smoothly;
+   the device-capability gating (real mouse only, no touch) lives in the JS
+   helper itself. */
+.hover-lift {
   transition:
     transform 0.25s ease,
     border-color 0.25s ease,
     background-color 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .feature-card-hover:hover {
-    transform: scale(1.03);
-    border-color: rgba(47, 128, 237, 0.6);
-    background-color: rgba(47, 128, 237, 0.1);
-    box-shadow: 0 0 24px rgba(47, 128, 237, 0.35);
-  }
+    filter 0.25s ease;
 }
 
 .fold-impact {
