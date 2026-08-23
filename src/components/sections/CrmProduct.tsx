@@ -40,6 +40,7 @@ const FEATURES = [
 
 export default function CrmProduct() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const hoverCleanupRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -139,6 +140,31 @@ export default function CrmProduct() {
             }
           );
         });
+
+        // "Come forward" is a hover-only effect, separate from the entrance
+        // spin above — the element stays at rest (no elevation, no extra
+        // scale) once the spin finishes, and only lifts when a real mouse
+        // hovers it. Gated on pointer capability (not the width breakpoint
+        // above), since a touch device can still be >=768px wide (tablets).
+        if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+          const el = mobileVisual as HTMLElement;
+          const onEnter = () => {
+            gsap.to(el, { scale: 1.1, duration: 0.3, ease: "power2.out" });
+            el.style.zIndex = "30";
+            el.style.filter = "drop-shadow(0 40px 60px rgba(0,0,0,0.75))";
+          };
+          const onLeave = () => {
+            gsap.to(el, { scale: 1, duration: 0.3, ease: "power2.out" });
+            el.style.zIndex = "1";
+            el.style.filter = "drop-shadow(0 16px 24px rgba(0,0,0,0.4))";
+          };
+          el.addEventListener("mouseenter", onEnter);
+          el.addEventListener("mouseleave", onLeave);
+          hoverCleanupRef.current = () => {
+            el.removeEventListener("mouseenter", onEnter);
+            el.removeEventListener("mouseleave", onLeave);
+          };
+        }
       }
 
       const urgency = sectionRef.current!.querySelector("[data-urgency]");
@@ -157,7 +183,11 @@ export default function CrmProduct() {
       }
     }, sectionRef);
 
-    return () => ctx.revert();
+    return () => {
+      hoverCleanupRef.current?.();
+      hoverCleanupRef.current = null;
+      ctx.revert();
+    };
   }, []);
 
   return (
@@ -227,7 +257,7 @@ export default function CrmProduct() {
         <div className="mt-16 grid items-center gap-10 md:grid-cols-2">
           <div
             data-mobile-visual
-            className="relative z-10 mx-auto w-full max-w-[320px] [perspective:1200px]"
+            className="relative z-[1] mx-auto w-full max-w-[320px] [perspective:1200px] [transition:filter_0.3s_ease] [filter:drop-shadow(0_16px_24px_rgba(0,0,0,0.4))]"
           >
             <Image
               src="/images/j7crm-mobile-mockup.png"
@@ -235,7 +265,7 @@ export default function CrmProduct() {
               width={941}
               height={1672}
               sizes="(min-width: 768px) 320px, 260px"
-              className="h-auto w-full [filter:drop-shadow(0_30px_50px_rgba(0,0,0,0.65))]"
+              className="h-auto w-full"
             />
           </div>
           <div data-device-visual className="relative mx-auto w-full max-w-[280px]">
