@@ -179,7 +179,7 @@ export default function CrmProduct() {
             <div
               key={f.title}
               data-feature-card
-              className="rounded-2xl border border-white/10 bg-ink/40 p-6"
+              className="feature-card-hover rounded-2xl border border-white/10 bg-ink/40 p-6"
             >
               <h3 className="font-heading text-xl font-bold text-porcelain">{f.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-porcelain/65">{f.pain}</p>

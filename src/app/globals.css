@@ -299,6 +299,28 @@ h1, h2, h3, h4 {
   animation-delay: 0.3s;
 }
 
+/* J7 CRM feature cards — hover lift + blue glow. Scoped to devices with a
+   real mouse (hover: hover) and fine pointer precision, not just Tailwind's
+   plain `:hover` (which this project's compiled output confirms has no
+   automatic touch-device scoping) — otherwise the effect gets "stuck" on
+   touchscreens after a tap, since there's no mouse-leave event to clear it. */
+.feature-card-hover {
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .feature-card-hover:hover {
+    transform: scale(1.03);
+    border-color: rgba(47, 128, 237, 0.6);
+    background-color: rgba(47, 128, 237, 0.1);
+    box-shadow: 0 0 24px rgba(47, 128, 237, 0.35);
+  }
+}
+
 .fold-impact {
   font-weight: 700;
   text-transform: uppercase;
