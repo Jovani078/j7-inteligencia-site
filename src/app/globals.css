@@ -317,6 +317,39 @@ h1, h2, h3, h4 {
     filter 0.25s ease;
 }
 
+/* Typewriter cursor for the J7 CRM intro paragraph. Position (x/y/height)
+   is set imperatively from JS on every scroll tick — this class only owns
+   the blink loop. `top/left: 0` is the base the JS `x`/`y` transform offsets
+   from (GSAP's x/y translate the element from its own layout position). */
+@keyframes typewriter-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.typewriter-cursor {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  background: var(--electric);
+  animation: typewriter-blink 0.8s steps(1) infinite;
+  pointer-events: none;
+}
+
+/* Hidden by default (see above) — JS only flips this on when the scrubbed
+   reveal actually sets up, so prefers-reduced-motion (which skips that
+   setup entirely) never shows a cursor at all, blinking or otherwise. */
+.typewriter-cursor.is-active {
+  display: block;
+}
+
 .fold-impact {
   font-weight: 700;
   text-transform: uppercase;

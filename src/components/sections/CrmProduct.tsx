@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import { gsap, prefersReducedMotion } from "@/lib/gsap";
+import { gsap, ScrollTrigger, SplitText, prefersReducedMotion } from "@/lib/gsap";
 import { attachHoverLift } from "@/lib/hover-lift";
 import RevealText from "@/components/ui/RevealText";
 import MagneticButton from "@/components/ui/MagneticButton";
@@ -42,6 +42,9 @@ const FEATURES = [
 export default function CrmProduct() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const hoverCleanupRef = useRef<(() => void)[]>([]);
+  const typewriterRef = useRef<HTMLParagraphElement>(null);
+  const typewriterWrapRef = useRef<HTMLDivElement>(null);
+  const cursorRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -85,6 +88,51 @@ export default function CrmProduct() {
           scrollTrigger: { trigger: introEls[0], start: "top 80%", toggleActions: "play none none reverse" },
         }
       );
+
+      // Typewriter reveal on the intro paragraph — letter-by-letter opacity
+      // tied directly to scroll position (scrub), reversible by construction
+      // since it's just reading self.progress each tick rather than playing
+      // a one-shot tween. A blinking cursor tracks the boundary character's
+      // real on-screen position (via getBoundingClientRect) so it follows
+      // correctly across line wraps, not just a fixed spot at the end.
+      if (typewriterRef.current && typewriterWrapRef.current && cursorRef.current) {
+        const wrap = typewriterWrapRef.current;
+        const cursor = cursorRef.current;
+        const split = SplitText.create(typewriterRef.current, { type: "chars" });
+        const chars = split.chars as HTMLElement[];
+        gsap.set(chars, { opacity: 0 });
+        cursor.classList.add("is-active");
+        gsap.set(cursor, { opacity: 1 });
+
+        const positionCursor = (revealCount: number) => {
+          const idx = Math.min(Math.max(revealCount, 0), chars.length - 1);
+          const target = chars[idx];
+          if (!target) return;
+          const wrapRect = wrap.getBoundingClientRect();
+          const rect = target.getBoundingClientRect();
+          const atStart = revealCount <= 0;
+          gsap.set(cursor, {
+            x: (atStart ? rect.left : rect.right) - wrapRect.left,
+            y: rect.top - wrapRect.top,
+            height: rect.height,
+          });
+        };
+        positionCursor(0);
+
+        ScrollTrigger.create({
+          trigger: wrap,
+          start: "top 80%",
+          end: "bottom 55%",
+          scrub: true,
+          onUpdate: (self) => {
+            const revealCount = Math.round(self.progress * chars.length);
+            chars.forEach((c, i) => {
+              c.style.opacity = i < revealCount ? "1" : "0";
+            });
+            positionCursor(revealCount);
+          },
+        });
+      }
 
       const cards = sectionRef.current!.querySelectorAll<HTMLElement>("[data-feature-card]");
       gsap.fromTo(
@@ -243,11 +291,14 @@ export default function CrmProduct() {
         </div>
 
         <div className="mt-16 grid items-center gap-10 md:grid-cols-[1.1fr_0.9fr]">
-          <p data-intro-child className="text-lg text-porcelain/75">
-            O J7 CRM nasceu de um problema real: gente perdendo venda porque o WhatsApp virou uma
-            bagunça de conversa perdida, contato esquecido e proposta que ninguém lembrou de
-            cobrar. A gente resolveu isso pra gente primeiro. Agora resolve pro seu negócio também.
-          </p>
+          <div ref={typewriterWrapRef} className="relative">
+            <p ref={typewriterRef} className="text-lg text-porcelain/75">
+              O J7 CRM nasceu de um problema real: gente perdendo venda porque o WhatsApp virou uma
+              bagunça de conversa perdida, contato esquecido e proposta que ninguém lembrou de
+              cobrar. A gente resolveu isso pra gente primeiro. Agora resolve pro seu negócio também.
+            </p>
+            <span ref={cursorRef} className="typewriter-cursor" aria-hidden="true" />
+          </div>
           <div
             data-intro-child
             className="relative mx-auto w-full max-w-sm overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/50"
