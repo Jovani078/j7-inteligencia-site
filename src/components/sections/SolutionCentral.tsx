@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
+import { attachHoverLift } from "@/lib/hover-lift";
 import RevealText from "@/components/ui/RevealText";
 
 const STEPS = [
@@ -28,6 +29,7 @@ const STEPS = [
 
 export default function SolutionCentral() {
   const gridRef = useRef<HTMLDivElement>(null);
+  const hoverCleanupRef = useRef<(() => void)[]>([]);
 
   useEffect(() => {
     if (!gridRef.current) return;
@@ -52,13 +54,28 @@ export default function SolutionCentral() {
           scrollTrigger: {
             trigger: gridRef.current,
             start: "top 78%",
-            toggleActions: "play none none reverse",
+            toggleActions: "play reverse play reverse",
           },
         }
       );
     }, gridRef);
 
-    return () => ctx.revert();
+    cards.forEach((card) => {
+      hoverCleanupRef.current.push(
+        attachHoverLift(card, {
+          scale: 1.05,
+          shadowRest: "none",
+          shadowHover: "drop-shadow(0 20px 35px rgba(0,0,0,0.5)) drop-shadow(0 0 24px rgba(47,128,237,0.3))",
+          zIndexHover: "20",
+        })
+      );
+    });
+
+    return () => {
+      hoverCleanupRef.current.forEach((cleanup) => cleanup());
+      hoverCleanupRef.current = [];
+      ctx.revert();
+    };
   }, []);
 
   return (
@@ -80,18 +97,22 @@ export default function SolutionCentral() {
 
         <div ref={gridRef} className="mx-auto mt-20 grid max-w-5xl gap-6 md:grid-cols-3">
           {STEPS.map((step) => (
-            <div
-              key={step.n}
-              data-process-card
-              className="relative aspect-[1122/1402] overflow-hidden rounded-2xl border border-electric/20 shadow-2xl shadow-black/50"
-            >
-              <Image
-                src={step.image}
-                alt={`${step.n} — ${step.label}: ${step.desc}`}
-                fill
-                sizes="(min-width: 768px) 33vw, 100vw"
-                className="object-cover"
-              />
+            // Hover scale lives on this OUTER, unclipped wrapper — not on the
+            // rounded-corner card below, which needs its own overflow-hidden
+            // to clip the fill-mode image to its rounded corners. Scaling an
+            // overflow-hidden element clips the scale itself at its own
+            // original bounds, so the "grow" would be invisible if both
+            // responsibilities lived on the same node.
+            <div key={step.n} data-process-card className="relative">
+              <div className="relative aspect-[1122/1402] overflow-hidden rounded-2xl border border-electric/20 shadow-2xl shadow-black/50">
+                <Image
+                  src={step.image}
+                  alt={`${step.n} — ${step.label}: ${step.desc}`}
+                  fill
+                  sizes="(min-width: 768px) 33vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
             </div>
           ))}
         </div>

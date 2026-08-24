@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
+import { attachHoverLift } from "@/lib/hover-lift";
 import RevealText from "@/components/ui/RevealText";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { WHATSAPP_LINK } from "@/lib/constants";
@@ -38,54 +39,6 @@ const FEATURES = [
   },
 ];
 
-// Drives the "lift toward the viewer" hover effect via GSAP + direct style
-// writes instead of a CSS `:hover` rule. A CSS `:hover` rule cannot win this
-// fight: GSAP's scroll-entrance animations leave an inline `transform` on
-// these elements after they finish (e.g. `transform: translate(0px, 0px)`),
-// and inline styles always beat a stylesheet selector — including `:hover`
-// — for the same property, short of `!important`. Confirmed by inspecting
-// the live `style` attribute before/after a real hover: the CSS approach's
-// `transform: scale(...)` silently never applied. Routing the hover state
-// through the same engine that owns the inline style (GSAP for transform,
-// direct `el.style` writes for the rest) sidesteps the conflict entirely.
-function attachHoverLift(
-  el: HTMLElement,
-  opts: {
-    scale: number;
-    shadowRest: string;
-    shadowHover: string;
-    zIndexHover: string;
-    borderRest?: string;
-    borderHover?: string;
-    bgRest?: string;
-    bgHover?: string;
-  }
-) {
-  if (typeof window === "undefined" || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-    return () => {};
-  }
-  const onEnter = () => {
-    gsap.to(el, { scale: opts.scale, duration: 0.3, ease: "power2.out" });
-    el.style.zIndex = opts.zIndexHover;
-    el.style.filter = opts.shadowHover;
-    if (opts.borderHover) el.style.borderColor = opts.borderHover;
-    if (opts.bgHover) el.style.backgroundColor = opts.bgHover;
-  };
-  const onLeave = () => {
-    gsap.to(el, { scale: 1, duration: 0.3, ease: "power2.out" });
-    el.style.zIndex = "1";
-    el.style.filter = opts.shadowRest;
-    if (opts.borderRest) el.style.borderColor = opts.borderRest;
-    if (opts.bgRest) el.style.backgroundColor = opts.bgRest;
-  };
-  el.addEventListener("mouseenter", onEnter);
-  el.addEventListener("mouseleave", onLeave);
-  return () => {
-    el.removeEventListener("mouseenter", onEnter);
-    el.removeEventListener("mouseleave", onLeave);
-  };
-}
-
 export default function CrmProduct() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const hoverCleanupRef = useRef<(() => void)[]>([]);
@@ -106,8 +59,16 @@ export default function CrmProduct() {
             scale: 1,
             duration: 1,
             ease: "power3.out",
-            scrollTrigger: { trigger: mainVisual, start: "top 78%", toggleActions: "play none none reverse" },
+            scrollTrigger: { trigger: mainVisual, start: "top 78%", toggleActions: "play reverse play reverse" },
           }
+        );
+        hoverCleanupRef.current.push(
+          attachHoverLift(mainVisual as HTMLElement, {
+            scale: 1.05,
+            shadowRest: "none",
+            shadowHover: "drop-shadow(0 30px 50px rgba(0,0,0,0.6)) drop-shadow(0 0 40px rgba(47,128,237,0.25))",
+            zIndexHover: "30",
+          })
         );
       }
 
