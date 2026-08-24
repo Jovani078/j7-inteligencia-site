@@ -2,8 +2,9 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import { gsap, ScrollTrigger, SplitText, prefersReducedMotion } from "@/lib/gsap";
+import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { attachHoverLift } from "@/lib/hover-lift";
+import { attachTypewriter } from "@/lib/typewriter";
 import RevealText from "@/components/ui/RevealText";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { WHATSAPP_LINK } from "@/lib/constants";
@@ -45,6 +46,9 @@ export default function CrmProduct() {
   const typewriterRef = useRef<HTMLParagraphElement>(null);
   const typewriterWrapRef = useRef<HTMLDivElement>(null);
   const cursorRef = useRef<HTMLSpanElement>(null);
+  const urgencyTextRef = useRef<HTMLParagraphElement>(null);
+  const urgencyWrapRef = useRef<HTMLDivElement>(null);
+  const urgencyCursorRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -89,48 +93,21 @@ export default function CrmProduct() {
         }
       );
 
-      // Typewriter reveal on the intro paragraph — letter-by-letter opacity
-      // tied directly to scroll position (scrub), reversible by construction
-      // since it's just reading self.progress each tick rather than playing
-      // a one-shot tween. A blinking cursor tracks the boundary character's
-      // real on-screen position (via getBoundingClientRect) so it follows
-      // correctly across line wraps, not just a fixed spot at the end.
+      // Typewriter reveal — see src/lib/typewriter.ts for the technique
+      // (scrub-driven letter reveal + position-tracking cursor). Reused
+      // as-is for both this intro paragraph and the urgency paragraph
+      // further down, per the established pattern in PROGRESSO.md.
       if (typewriterRef.current && typewriterWrapRef.current && cursorRef.current) {
-        const wrap = typewriterWrapRef.current;
-        const cursor = cursorRef.current;
-        const split = SplitText.create(typewriterRef.current, { type: "chars" });
-        const chars = split.chars as HTMLElement[];
-        gsap.set(chars, { opacity: 0 });
-        cursor.classList.add("is-active");
-        gsap.set(cursor, { opacity: 1 });
+        attachTypewriter(typewriterWrapRef.current, typewriterRef.current, cursorRef.current);
+      }
 
-        const positionCursor = (revealCount: number) => {
-          const idx = Math.min(Math.max(revealCount, 0), chars.length - 1);
-          const target = chars[idx];
-          if (!target) return;
-          const wrapRect = wrap.getBoundingClientRect();
-          const rect = target.getBoundingClientRect();
-          const atStart = revealCount <= 0;
-          gsap.set(cursor, {
-            x: (atStart ? rect.left : rect.right) - wrapRect.left,
-            y: rect.top - wrapRect.top,
-            height: rect.height,
-          });
-        };
-        positionCursor(0);
-
-        ScrollTrigger.create({
-          trigger: wrap,
-          start: "top 80%",
-          end: "bottom 55%",
-          scrub: true,
-          onUpdate: (self) => {
-            const revealCount = Math.round(self.progress * chars.length);
-            chars.forEach((c, i) => {
-              c.style.opacity = i < revealCount ? "1" : "0";
-            });
-            positionCursor(revealCount);
-          },
+      if (urgencyTextRef.current && urgencyWrapRef.current && urgencyCursorRef.current) {
+        // Slightly wider scrub window than the intro paragraph — same
+        // technique, just paced a touch slower since this is the final,
+        // heavier beat right before the CTA (per the optional pacing note).
+        attachTypewriter(urgencyWrapRef.current, urgencyTextRef.current, urgencyCursorRef.current, {
+          start: "top 85%",
+          end: "bottom 35%",
         });
       }
 
@@ -237,20 +214,6 @@ export default function CrmProduct() {
         );
       }
 
-      const urgency = sectionRef.current!.querySelector("[data-urgency]");
-      if (urgency) {
-        gsap.fromTo(
-          urgency,
-          { opacity: 0, y: 24 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: { trigger: urgency, start: "top 82%", toggleActions: "play none none reverse" },
-          }
-        );
-      }
     }, sectionRef);
 
     return () => {
@@ -356,13 +319,16 @@ export default function CrmProduct() {
           </div>
         </div>
 
-        <div data-urgency className="mt-16 border-l-2 border-electric/50 pl-6">
-          <p className="max-w-3xl text-lg font-medium text-porcelain">
-            Todo negócio que decidiu não ter isso ainda está competindo do mesmo jeito que
-            competia há 5 anos. E quem tem, está vendendo com a metade do esforço. A diferença
-            entre os dois não aparece no primeiro mês — aparece no relatório de fim de ano, quando
-            um cresceu e o outro só trabalhou mais.
-          </p>
+        <div className="mt-16 border-l-2 border-electric/50 pl-6">
+          <div ref={urgencyWrapRef} className="relative max-w-3xl">
+            <p ref={urgencyTextRef} className="text-lg font-medium text-porcelain">
+              Todo negócio que decidiu não ter isso ainda está competindo do mesmo jeito que
+              competia há 5 anos. E quem tem, está vendendo com a metade do esforço. A diferença
+              entre os dois não aparece no primeiro mês — aparece no relatório de fim de ano, quando
+              um cresceu e o outro só trabalhou mais.
+            </p>
+            <span ref={urgencyCursorRef} className="typewriter-cursor" aria-hidden="true" />
+          </div>
         </div>
 
         <div className="mt-10">

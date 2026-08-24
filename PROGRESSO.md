@@ -41,6 +41,34 @@ hover) > wrapper interno com `overflow-hidden` + `rounded-*` (recebe a imagem).
 simples) ou `ease: "back.out(1.5)"` (com leve "pulo"/overshoot, usado nos
 cards de foto).
 
+## Máquina de escrever (typewriter) em parágrafos-chave
+
+**Solução comprovada**: `attachTypewriter()` em `src/lib/typewriter.ts` —
+divide o texto em caracteres via `SplitText` (`type:"chars"`), revela cada
+um (`opacity`) proporcionalmente a `self.progress` dentro de um
+`ScrollTrigger` com `scrub:true`. Reversível "de graça": como é só leitura
+de progresso a cada tick (não um tween de disparo único), rolar pra cima
+desfaz a revelação automaticamente, sem lógica extra.
+
+Cursor piscando (`.typewriter-cursor` no CSS) acompanha a posição real do
+último caractere revelado via `getBoundingClientRect()`, recalculada a cada
+tick — funciona certo mesmo com quebra de linha. Fica `display:none` por
+padrão (só vira visível via classe `.is-active`, adicionada pelo JS) — assim
+`prefers-reduced-motion` nunca mostra um cursor "preso" ali, já que o setup
+inteiro é pulado nesse caso.
+
+Markup de referência (repetido em cada parágrafo que usa o efeito):
+```jsx
+<div ref={wrapRef} className="relative">
+  <p ref={textRef}>...texto...</p>
+  <span ref={cursorRef} className="typewriter-cursor" aria-hidden="true" />
+</div>
+```
+Pra ritmo mais pausado num parágrafo específico (ex: o de urgência antes de
+um CTA), passa uma janela de scrub mais larga: `attachTypewriter(wrap, text,
+cursor, { start: "top 85%", end: "bottom 35%" })` em vez dos valores padrão
+(`top 80%` / `bottom 55%`).
+
 ## Limitação conhecida: imagens com conteúdo "batizado" nos pixels
 
 Várias imagens do site (mockups, screenshots) têm texto/elementos visuais
@@ -54,9 +82,11 @@ imagem em assets separados — fora do escopo de edição de código.
 - Rupture.tsx (002/O problema) — diagrama desktop + lista mobile
 - SolutionCentral.tsx (003/A solução) — stagger + hover nos 3 cards de foto
 - CrmProduct.tsx (004/O sistema) — hero do laptop (entrada + hover, balões
-  não são elementos separados — ver limitação acima), intro, 7 cards de
-  funcionalidade (entrada + hover), mockup mobile (giro 360° + hover
-  separado), tela de login (entrada + hover)
+  não são elementos separados — ver limitação acima), parágrafo de intro
+  (máquina de escrever), 7 cards de funcionalidade (entrada + hover),
+  mockup mobile (giro 360° + hover separado), tela de login (entrada +
+  hover), parágrafo de urgência antes do CTA (máquina de escrever, ritmo
+  mais pausado)
 - Counters.tsx — pin desktop + contagem sincronizada ao scroll
 - Hero.tsx — headline com reveal por palavra, vídeo de fundo full-bleed
 - ChatDemo.tsx — indicador de "digitando" + revelação sequencial de mensagens
