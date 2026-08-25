@@ -69,6 +69,29 @@ um CTA), passa uma janela de scrub mais larga: `attachTypewriter(wrap, text,
 cursor, { start: "top 85%", end: "bottom 35%" })` em vez dos valores padrão
 (`top 80%` / `bottom 55%`).
 
+## Investigação recorrente: "duplicação" da seção 002/O problema (Rupture.tsx)
+
+Relatada 3 vezes até agora (mais recente: Passo 13). **Nunca reproduzida
+tecnicamente**, apesar de investigação extensa a cada vez. Registro aqui pra
+não repetir o trabalho sem saber o que já foi descartado:
+
+- `git log -- src/components/sections/Rupture.tsx` mostra o arquivo tocado
+  em **um único commit** (o checkpoint inicial do `git init` desta sessão).
+  Nenhuma mudança de código depois disso — ou seja, não é regressão de
+  nenhum passo recente (004/O sistema, limpeza de hover, etc. nunca
+  encostaram nesse arquivo).
+- O arquivo de fato tem DOIS blocos — um `hidden md:block` (diagrama
+  desktop) e um `md:hidden` (lista vertical mobile) — só um visível por
+  vez, é o padrão responsivo intencional do site, não um bug.
+- Testado tecnicamente 3 vezes, a última bem exaustiva: 18 larguras de tela
+  diferentes (320px–1920px) × 3 motores de navegador (Chromium, Firefox,
+  WebKit) direto no link ao vivo que o usuário estava testando. Em nenhuma
+  combinação os dois blocos apareceram simultaneamente visíveis.
+- Se isso for relatado de novo: pedir print/vídeo da tela real (já pedido
+  2x, ainda não recebido) antes de investigar de novo — sem isso não tem
+  como saber se é o mesmo link atualizado, cache de navegador, ou algo
+  genuinamente não coberto pelos testes acima.
+
 ## Limitação conhecida: imagens com conteúdo "batizado" nos pixels
 
 Várias imagens do site (mockups, screenshots) têm texto/elementos visuais
