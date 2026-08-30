@@ -36,7 +36,7 @@ export default function FinalCTA() {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-ink px-6 py-40 md:px-14"
+      className="relative overflow-hidden bg-ink px-6 py-28 md:px-14"
     >
       {/*
         TODO: trocar o fundo abaixo por <video autoPlay muted loop playsInline> com o vídeo
@@ -55,16 +55,16 @@ export default function FinalCTA() {
       <div className="relative z-10 mx-auto max-w-4xl text-center">
         <RevealText
           as="h2"
-          className="font-display text-4xl font-bold leading-[1.05] text-porcelain md:text-6xl"
+          className="h-headline leading-[1.05] text-white"
         >
           SE SUA DEMANDA CRESCER 3X AMANHÃ, SUA EMPRESA ESTÁ PREPARADA?
         </RevealText>
-        <p className="mx-auto mt-6 max-w-xl text-lg text-porcelain/65">
+        <p className="texto-apoio mx-auto mt-6 max-w-xl text-porcelain/65">
           Estruture agora a operação que vai sustentar o próximo nível do seu negócio.
         </p>
         <div className="mt-10 flex flex-wrap justify-center gap-4">
           <MagneticButton href="#diagnostico" variant="primary">
-            Quero preparar minha empresa
+            Quero parar de perder cliente pra concorrência
           </MagneticButton>
           <MagneticButton href={WHATSAPP_LINK} variant="whatsapp" external>
             Falar pelo WhatsApp

@@ -1,35 +1,11 @@
 import type { Metadata } from "next";
-import { Syne, Space_Grotesk, Manrope, Space_Mono } from "next/font/google";
 import "./globals.css";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import Preloader from "@/components/Preloader";
 import Cursor from "@/components/ui/Cursor";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import { PreloadProvider } from "@/lib/preload-context";
-
-const syne = Syne({
-  variable: "--font-display",
-  subsets: ["latin"],
-  weight: ["700", "800"],
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-heading",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-});
-
-const manrope = Manrope({
-  variable: "--font-body",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const spaceMono = Space_Mono({
-  variable: "--font-mono",
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+import { montserrat } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://resolveia.com.br"),
@@ -86,10 +62,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="pt-BR"
-      className={`${syne.variable} ${spaceGrotesk.variable} ${manrope.variable} ${spaceMono.variable}`}
-    >
+    <html lang="pt-BR" className={montserrat.variable}>
       <head>
         <script
           type="application/ld+json"

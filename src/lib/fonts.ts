@@ -1,10 +1,11 @@
 import { Montserrat } from "next/font/google";
 
-// Shared Montserrat instance — loaded once, reused wherever it's needed
-// (Preloader counter, Hero first-fold copy) instead of re-importing.
-// Not applied globally: consumers opt in locally via `montserrat.variable`.
+// Single sitewide font — applied globally via RootLayout, and re-mapped
+// onto every Tailwind font-* token in globals.css (@theme inline), so
+// font-display/font-heading/font-body/font-mono all resolve to this same
+// family instead of the four separate typefaces used previously.
 export const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
-  weight: ["400", "700", "800", "900"],
+  weight: ["400", "500", "600", "700", "800"],
 });

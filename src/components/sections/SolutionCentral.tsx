@@ -79,18 +79,18 @@ export default function SolutionCentral() {
   }, []);
 
   return (
-    <section id="solucoes" className="bg-ink px-6 py-28 md:px-14 lg:px-20">
+    <section id="solucoes" className="bg-ink px-6 py-20 md:px-14 lg:px-20">
       <div className="mx-auto max-w-6xl text-center">
-        <span className="mb-6 block font-mono text-xs uppercase tracking-[0.3em] text-electric">
+        <span className="eyebrow-tag mb-6 block text-electric">
           003 / A solução
         </span>
         <RevealText
           as="h2"
-          className="mx-auto max-w-4xl font-heading text-4xl font-bold leading-tight text-porcelain md:text-5xl"
+          className="h-headline mx-auto max-w-4xl leading-tight text-white"
         >
           Transformamos processos manuais em uma operação inteligente.
         </RevealText>
-        <p className="mx-auto mt-6 max-w-2xl text-lg text-porcelain/65">
+        <p className="texto-apoio mx-auto mt-6 max-w-2xl text-porcelain/65">
           Não entregamos apenas uma ferramenta. Analisamos sua operação, encontramos os gargalos
           e implementamos uma estrutura conectada à realidade da sua empresa.
         </p>

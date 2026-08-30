@@ -16,7 +16,7 @@ const variants = {
   primary:
     "bg-electric text-porcelain hover:bg-electric-strong hover:shadow-[0_0_20px_rgba(47,128,237,0.35)]",
   secondary:
-    "bg-transparent text-porcelain border border-porcelain/30 hover:border-electric hover:text-electric",
+    "bg-transparent text-ink border border-ink/20 hover:border-electric-strong hover:text-electric-strong",
   whatsapp: "bg-whatsapp text-ink hover:brightness-110",
 };
 
@@ -56,7 +56,7 @@ export default function MagneticButton({
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
       className={clsx(
-        "magnetic-btn inline-flex items-center justify-center gap-2 rounded-full px-7 py-4 font-heading text-sm font-semibold uppercase tracking-wide transition-all duration-300",
+        "magnetic-btn inline-flex items-center justify-center gap-2 rounded-full px-7 py-4 text-[0.82rem] font-semibold uppercase tracking-[0.06em] transition-all duration-300",
         variants[variant],
         className
       )}

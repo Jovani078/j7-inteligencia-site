@@ -4,6 +4,7 @@ import Hero from "@/components/sections/Hero";
 import MarqueeSection from "@/components/sections/MarqueeSection";
 import Rupture from "@/components/sections/Rupture";
 import SolutionCentral from "@/components/sections/SolutionCentral";
+import RoutineCleanup from "@/components/sections/RoutineCleanup";
 import CrmProduct from "@/components/sections/CrmProduct";
 import Counters from "@/components/sections/Counters";
 import HowItWorks from "@/components/sections/HowItWorks";
@@ -26,6 +27,7 @@ export default function Home() {
         <MarqueeSection />
         <Rupture />
         <SolutionCentral />
+        <RoutineCleanup />
         <CrmProduct />
         <Counters />
         <HowItWorks />

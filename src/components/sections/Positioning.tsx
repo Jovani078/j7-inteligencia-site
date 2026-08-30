@@ -1,40 +1,6 @@
-"use client";
-
-import { useEffect, useRef } from "react";
-import { gsap, prefersReducedMotion } from "@/lib/gsap";
-
 export default function Positioning() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const escalavelRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!escalavelRef.current || prefersReducedMotion()) return;
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        escalavelRef.current,
-        { xPercent: 40 },
-        {
-          xPercent: -60,
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true,
-          },
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section
-      ref={sectionRef}
-      className="relative overflow-hidden bg-graphite px-6 py-32 md:px-14 lg:px-20"
-    >
+    <section className="relative overflow-hidden bg-graphite px-6 py-24 md:px-14 lg:px-20">
       {/* Abstract connection background — no humanoid robots */}
       <div className="pointer-events-none absolute inset-0 opacity-40">
         <svg className="h-full w-full" preserveAspectRatio="none" viewBox="0 0 1200 600">
@@ -56,15 +22,15 @@ export default function Positioning() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-4xl text-center">
-        <h2 className="font-heading text-3xl font-bold leading-tight text-porcelain md:text-5xl">
+        <h2 className="text-3xl font-extrabold leading-tight text-white md:text-5xl">
           IA NÃO SUBSTITUI UMA EMPRESA BEM GERIDA.
           <br />
           ELA TORNA ESSA EMPRESA MAIS RÁPIDA, INTELIGENTE E
         </h2>
       </div>
 
-      <div ref={escalavelRef} className="relative z-10 mt-4 w-max whitespace-nowrap md:mt-0">
-        <span className="font-display text-[16vw] font-bold uppercase leading-none tracking-tight text-electric">
+      <div className="relative z-10 mx-auto mt-4 w-max md:mt-0">
+        <span className="escalavel-pulse inline-block text-[5.3vw] font-extrabold uppercase leading-none tracking-tight text-electric">
           ESCALÁVEL.
         </span>
       </div>

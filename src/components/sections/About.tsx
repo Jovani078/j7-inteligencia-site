@@ -3,15 +3,15 @@ import RevealText from "@/components/ui/RevealText";
 
 const AUTHORITY = [
   "Mais de 3 anos no mercado digital",
-  "Mais de R$ 320 mil gerados com a agência em apenas um ano",
-  "Mais de R$ 30 mil investidos em mentorias, cursos e network com quem já está no mercado",
+  "Mais de R$ 200 mil gerados com a agência em um ano",
+  "Mais de 800 horas de trabalho manual economizadas pelos times dos nossos clientes",
   "Experiência prática em atendimento, vendas e operação",
   "Implementações personalizadas para empresas",
 ];
 
 export default function About() {
   return (
-    <section id="sobre" className="bg-graphite px-6 py-28 md:px-14 lg:px-20">
+    <section id="sobre" className="bg-graphite px-6 py-20 md:px-14 lg:px-20">
       <div className="mx-auto grid max-w-6xl gap-16 md:grid-cols-[0.85fr_1.15fr] md:items-center">
         <div className="relative mx-auto aspect-[1093/1380] w-full max-w-sm">
           <div
@@ -29,19 +29,19 @@ export default function About() {
         </div>
 
         <div>
-          <span className="mb-6 block font-mono text-xs uppercase tracking-[0.3em] text-electric">
+          <span className="eyebrow-tag mb-6 block text-electric">
             008 / Quem está por trás
           </span>
           <RevealText
             as="h2"
-            className="font-heading text-3xl font-bold text-porcelain md:text-4xl"
+            className="h-headline text-white"
           >
             Estratégia de quem conhece o atendimento do lado de dentro.
           </RevealText>
 
-          <div className="mt-8 flex flex-col gap-4 text-porcelain/70">
+          <div className="body-text mt-8 flex flex-col gap-4 text-porcelain/70">
             <p>
-              Sou <strong className="text-porcelain">Jovani Charão</strong>, fundador da J7
+              Sou <strong className="text-white">Jovani Charão</strong>, fundador da J7
               Inteligência.
             </p>
             <p>
@@ -65,9 +65,9 @@ export default function About() {
             {AUTHORITY.map((item) => (
               <li
                 key={item}
-                className="flex items-start gap-2 border-l-2 border-electric/50 pl-3 text-sm text-porcelain/70"
+                className="body-text flex items-start gap-2 border-l-2 border-electric/50 pl-3 text-porcelain/70"
               >
-                {item}
+                <span aria-hidden="true" className="text-electric">✓</span> {item}
               </li>
             ))}
           </ul>

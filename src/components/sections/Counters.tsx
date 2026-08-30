@@ -5,11 +5,11 @@ import Counter, { CounterHandle } from "@/components/ui/Counter";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 
 const STATS = [
-  { value: 160, prefix: "+", suffix: " mil", label: "Gerados com operações digitais" },
+  { value: 200, prefix: "+", suffix: " mil", label: "Gerados com operações digitais" },
+  { value: 800, prefix: "+", suffix: " horas", label: "Economizadas de tarefas manuais repetitivas" },
   { value: 24, suffix: "/7", label: "Possibilidade de atendimento automatizado" },
   { value: 3, prefix: "+", suffix: " anos", label: "Atuando com estratégia e tecnologia" },
   { value: 5, decimals: 1, decimalComma: true, label: "Avaliação no Google" },
-  { value: 8, label: "Avaliações de clientes" },
 ];
 
 export default function Counters() {
@@ -49,7 +49,7 @@ export default function Counters() {
           start: "top top",
           end: "+=900",
           pin: true,
-          scrub: 0.6,
+          scrub: 0.35,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
@@ -101,7 +101,7 @@ export default function Counters() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-screen items-center overflow-hidden bg-electric px-6 py-24 md:px-14 lg:px-20"
+      className="relative flex min-h-screen items-center overflow-hidden bg-electric px-6 py-20 md:px-14 lg:px-20"
     >
       {/* Soft blend at each edge so the jump into/out of this section's bold
           brand-blue reads as a transition, not a hard cut — the only color
@@ -152,9 +152,9 @@ export default function Counters() {
               decimals={s.decimals}
               decimalComma={s.decimalComma}
               external
-              className="font-mono text-4xl font-bold text-ink md:text-5xl lg:text-6xl"
+              className="stat-number text-ink"
             />
-            <span className="mt-3 max-w-[14ch] text-sm font-medium uppercase tracking-wide text-ink/70">
+            <span className="label-badge mt-3 max-w-[14ch] text-ink/70">
               {s.label}
             </span>
           </div>

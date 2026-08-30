@@ -1,11 +1,7 @@
 "use client";
 
-// Project card placeholder — no real photography exists yet for the
-// gallery. Swap the `[ imagem a enviar ]` block for a real next/image once
-// project photos/screenshots are provided; the reveal/tilt mechanics below
-// don't need to change.
-
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 
 export type Project = {
@@ -13,10 +9,10 @@ export type Project = {
   category: string;
   title: string;
   description: string;
-  result: string;
+  image: string;
 };
 
-export default function ProjectCard({ index, category, title, description, result }: Project) {
+export default function ProjectCard({ index, category, title, description, image }: Project) {
   const cardRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
 
@@ -69,26 +65,29 @@ export default function ProjectCard({ index, category, title, description, resul
       data-cursor-text="VER"
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
-      className="flex h-full w-[78vw] shrink-0 flex-col overflow-hidden rounded-2xl border border-white/10 bg-graphite/40 sm:w-[52vw] md:w-[36vw] lg:w-[30vw]"
+      className="flex h-full w-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-[0_20px_50px_-30px_rgba(0,0,0,0.25)]"
     >
       <div
         ref={imageRef}
-        className="flex aspect-[4/3] items-center justify-center border-b border-white/10 bg-white/[0.03]"
+        className="relative aspect-[4/3] overflow-hidden border-b border-ink/10 bg-ink/[0.03]"
       >
-        <span className="text-xs uppercase tracking-wide text-porcelain/30">
-          [ imagem a enviar ]
-        </span>
+        <Image
+          src={image}
+          alt={`${category} — ${title}`}
+          fill
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          className="object-cover"
+        />
       </div>
       <div className="flex flex-1 flex-col gap-3 p-6">
         <div className="flex items-center justify-between">
-          <span className="font-mono text-xs uppercase tracking-[0.25em] text-electric">
+          <span className="label-badge text-deep-blue">
             {category}
           </span>
-          <span className="font-mono text-xs text-porcelain/30">{index}</span>
+          <span className="label-badge text-ink/30">{index}</span>
         </div>
-        <h3 className="font-heading text-xl font-bold text-porcelain">{title}</h3>
-        <p className="text-sm text-porcelain/65">{description}</p>
-        <p className="mt-auto text-sm font-semibold text-electric">{result}</p>
+        <h3 className="text-xl font-extrabold text-ink">{title}</h3>
+        <p className="body-text mt-auto text-ink/65">{description}</p>
       </div>
     </div>
   );

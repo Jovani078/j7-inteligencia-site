@@ -98,15 +98,19 @@ export default function HowItWorks() {
   return (
     <section
       id="como-funciona"
-      className="bg-graphite px-6 py-28 md:px-14 lg:px-20"
+      className="bg-graphite px-6 py-20 md:px-14 lg:px-20"
     >
       <div className="mx-auto max-w-4xl">
-        <span className="mb-6 block font-mono text-xs uppercase tracking-[0.3em] text-electric">
+        <span className="eyebrow-tag mb-6 block text-electric">
           005 / O processo
         </span>
+        <p className="max-w-xl text-sm text-porcelain/55">
+          Você não precisa gerenciar esse projeto. A gente cuida de cada etapa e te mantém
+          informado, sem virar mais uma tarefa na sua lista.
+        </p>
         <RevealText
           as="h2"
-          className="font-heading text-4xl font-bold text-porcelain md:text-5xl"
+          className="h-headline mt-4 text-white"
         >
           Da análise à operação funcionando.
         </RevealText>
@@ -124,11 +128,11 @@ export default function HowItWorks() {
                 data-dot
                 className="absolute -left-[3.15rem] top-1.5 h-3.5 w-3.5 rounded-full border border-white/20 bg-graphite transition-colors duration-500"
               />
-              <span className="font-mono text-xs text-porcelain/40">Etapa {step.n}</span>
-              <h3 className="mt-2 font-heading text-2xl font-bold text-porcelain md:text-3xl">
+              <span className="label-badge text-porcelain/40">Etapa {step.n}</span>
+              <h3 className="mt-2 text-2xl font-extrabold text-white md:text-3xl">
                 {step.title}
               </h3>
-              <p className="mt-2 max-w-lg text-porcelain/60">{step.desc}</p>
+              <p className="body-text mt-2 max-w-lg text-porcelain/60">{step.desc}</p>
             </div>
           ))}
         </div>

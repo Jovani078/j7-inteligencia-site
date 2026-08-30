@@ -224,18 +224,18 @@ export default function CrmProduct() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="bg-graphite px-6 py-28 md:px-14 lg:px-20">
+    <section ref={sectionRef} className="bg-graphite px-6 py-20 md:px-14 lg:px-20">
       <div className="mx-auto max-w-6xl">
-        <span className="mb-6 block font-mono text-xs uppercase tracking-[0.3em] text-electric">
+        <span className="eyebrow-tag mb-6 block text-electric">
           004 / O sistema
         </span>
         <RevealText
           as="h2"
-          className="max-w-4xl font-heading text-4xl font-bold leading-[1.1] text-porcelain md:text-5xl"
+          className="h-headline max-w-4xl leading-[1.1] text-white"
         >
           Enquanto você anota cliente no caderno, seu concorrente já tem um CRM rodando sozinho.
         </RevealText>
-        <p className="mt-6 max-w-2xl text-lg text-porcelain/65">
+        <p className="texto-apoio mt-6 max-w-2xl text-porcelain/65">
           Não é outro app pra você aprender. É o sistema que a própria J7 usa e agora estrutura pra
           funcionar no seu negócio — simples de configurar, difícil de ficar sem depois que você vê
           funcionando.
@@ -255,7 +255,7 @@ export default function CrmProduct() {
 
         <div className="mt-16 grid items-center gap-10 md:grid-cols-[1.1fr_0.9fr]">
           <div ref={typewriterWrapRef} className="relative">
-            <p ref={typewriterRef} className="text-lg text-porcelain/75">
+            <p ref={typewriterRef} className="texto-apoio text-porcelain/75">
               O J7 CRM nasceu de um problema real: gente perdendo venda porque o WhatsApp virou uma
               bagunça de conversa perdida, contato esquecido e proposta que ninguém lembrou de
               cobrar. A gente resolveu isso pra gente primeiro. Agora resolve pro seu negócio também.
@@ -284,8 +284,8 @@ export default function CrmProduct() {
               data-feature-card
               className="hover-lift rounded-2xl border border-white/10 bg-ink/40 p-6"
             >
-              <h3 className="font-heading text-xl font-bold text-porcelain">{f.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-porcelain/65">{f.pain}</p>
+              <h3 className="text-xl font-extrabold text-white">{f.title}</h3>
+              <p className="body-text mt-3 leading-relaxed text-porcelain/65">{f.pain}</p>
             </div>
           ))}
         </div>
@@ -321,7 +321,7 @@ export default function CrmProduct() {
 
         <div className="mt-16 border-l-2 border-electric/50 pl-6">
           <div ref={urgencyWrapRef} className="relative max-w-3xl">
-            <p ref={urgencyTextRef} className="text-lg font-medium text-porcelain">
+            <p ref={urgencyTextRef} className="texto-apoio font-medium text-white">
               Todo negócio que decidiu não ter isso ainda está competindo do mesmo jeito que
               competia há 5 anos. E quem tem, está vendendo com a metade do esforço. A diferença
               entre os dois não aparece no primeiro mês — aparece no relatório de fim de ano, quando
@@ -333,7 +333,7 @@ export default function CrmProduct() {
 
         <div className="mt-10">
           <MagneticButton href={WHATSAPP_LINK} variant="primary" external>
-            QUERO O J7 CRM NO MEU NEGÓCIO
+            Quero parar de perder cliente pra concorrência
           </MagneticButton>
         </div>
       </div>

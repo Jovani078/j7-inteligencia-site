@@ -88,7 +88,7 @@ export default function Header() {
           <span className="relative h-9 w-9 shrink-0">
             <Image src="/j7-icon.png" alt="J7 Inteligência" fill sizes="36px" priority />
           </span>
-          <span className="font-display text-lg font-bold tracking-tight text-porcelain">
+          <span className="text-lg font-extrabold tracking-tight text-white">
             J7 <span className="text-electric">Inteligência</span>
           </span>
         </a>
@@ -99,7 +99,7 @@ export default function Header() {
               key={link.href}
               href={link.href}
               onClick={(e) => handleNavClick(e, link.href)}
-              className="group relative font-heading text-sm text-porcelain/85 transition-colors hover:text-porcelain"
+              className="group relative text-sm font-medium text-porcelain/85 transition-colors hover:text-white"
             >
               {link.label}
               <span className="absolute -bottom-1 left-0 h-px w-0 bg-electric transition-all duration-300 group-hover:w-full" />
@@ -143,7 +143,7 @@ export default function Header() {
               setMenuOpen(false);
               handleNavClick(e, link.href);
             }}
-            className="font-display text-3xl font-bold text-porcelain transition-transform"
+            className="text-3xl font-extrabold text-white transition-transform"
             style={{ transitionDelay: `${i * 60}ms` }}
           >
             {link.label}

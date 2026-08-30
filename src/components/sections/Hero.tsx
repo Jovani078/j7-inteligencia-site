@@ -12,7 +12,7 @@ import { WHATSAPP_LINK } from "@/lib/constants";
 // directly in the markup so specific words can be wrapped in a colored
 // span, instead of being built from line constants.
 const SUBHEADLINE =
-  "Você investe para o cliente chegar até você. Mas se ele chama no WhatsApp e demora para ser atendido, a venda pode ir direto para o concorrente. A J7 estrutura atendimento, IA e automação para você responder, qualificar e conduzir cada oportunidade com mais velocidade e organização.";
+  "Você paga pra atrair o cliente. O concorrente lucra porque respondeu primeiro. A J7 fecha essa brecha: em menos de 5 minutos, seu cliente já está pré-qualificado.";
 // Giant translucent word layered between the canvas and the foreground text.
 // Swap these strings to change the background typographic element.
 const BACKGROUND_WORD_LINE_1 = "INTELIGÊNCIA";
@@ -98,7 +98,7 @@ export default function Hero() {
           start: "top top",
           end: "+=70%",
           pin: true,
-          scrub: 0.6,
+          scrub: 0.35,
           onUpdate: (self) => {
             progressRef.current = self.progress;
             gsap.set(textRef.current, {
@@ -148,7 +148,7 @@ export default function Hero() {
         trigger: sectionRef.current,
         start: "top bottom",
         end: "bottom top",
-        scrub: 0.8,
+        scrub: 0.4,
         onUpdate: (self) => {
           gsap.set(bgWordScrollRef.current, { y: -40 * self.progress });
         },
@@ -249,16 +249,21 @@ export default function Hero() {
         className={`relative z-10 flex h-full flex-col items-center justify-center px-6 pt-28 text-center md:pt-32 ${montserrat.variable}`}
       >
         <div className="mx-auto w-full max-w-3xl md:max-w-[78%] lg:max-w-4xl">
-          <h1 ref={headlineRef} className="fold-headline break-words text-center text-porcelain">
+          <h1 ref={headlineRef} className="fold-headline break-words text-center text-white">
             Seu cliente chega <span className="text-electric">pronto pra comprar</span>. Sua
             demora no <span className="text-electric">WhatsApp</span> faz ele comprar do{" "}
             <span className="text-electric">concorrente</span>.
           </h1>
 
           <div className="fold-copy">
+            {/* Font-size intentionally NOT the standard .texto-apoio scale
+                here — Hero sits in a fixed h-screen fold, and this size
+                was tuned so the copy block never pushes the CTA below the
+                fold on short viewports. Family/weight already match the
+                sitewide body-text rule via inheritance (font-body). */}
             <p
               data-hero-fade
-              className="mx-auto mt-5 max-w-xl text-sm text-porcelain/75 md:mt-6 md:text-base"
+              className="mx-auto mt-5 max-w-xl text-sm text-white md:mt-6 md:text-base"
             >
               {SUBHEADLINE}
             </p>
@@ -270,20 +275,26 @@ export default function Hero() {
                 external
                 className="hero-cta-pulse"
               >
-                QUERO PARAR DE PERDER CLIENTE PRA CONCORRÊNCIA
+                Quero parar de perder cliente pra concorrência
               </MagneticButton>
+            </div>
+
+            <div data-hero-fade className="mt-5 flex justify-center">
+              <span className="label-badge inline-flex items-center gap-2 rounded-full border border-electric/30 bg-electric/10 px-4 py-1.5 text-electric-light">
+                <span aria-hidden="true">⏱</span> Implementação garantida em 7 dias
+              </span>
             </div>
           </div>
 
           <div
             data-hero-fade
-            className="mt-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-sm text-porcelain/60"
+            className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm text-porcelain/60"
           >
             <span className="flex items-center gap-2">
               <GoogleIcon />
               <span style={{ color: "#FBBC04" }}>★★★★★</span> 5,0 no Google
             </span>
-            <span>8 avaliações reais</span>
+            <span aria-hidden="true">·</span>
             <span>Atendimento para empresas em todo o Brasil</span>
           </div>
         </div>

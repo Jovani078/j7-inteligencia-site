@@ -1,6 +1,8 @@
 import Image from "next/image";
 import {
   PHONE_DISPLAY,
+  PHONE_DISPLAY_SECONDARY,
+  PHONE_NUMBER_SECONDARY,
   WHATSAPP_LINK,
   INSTAGRAM_LINK,
   GOOGLE_REVIEWS_LINK,
@@ -16,21 +18,24 @@ export default function Footer() {
               <span className="relative h-12 w-12 shrink-0">
                 <Image src="/j7-icon.png" alt="J7 Inteligência" fill sizes="48px" />
               </span>
-              <p className="font-display text-xl font-bold text-porcelain">
+              <p className="text-xl font-extrabold text-white">
                 J7 <span className="text-electric">Inteligência</span>
               </p>
             </div>
-            <p className="mt-4 max-w-xs text-sm text-porcelain/55">
+            <p className="body-text mt-4 max-w-xs text-porcelain/55">
               Inteligência que vira operação. IA, automação e aquisição de clientes para empresas.
             </p>
           </div>
 
           <div className="flex flex-col gap-3 text-sm">
-            <span className="mb-1 font-heading text-xs uppercase tracking-[0.2em] text-porcelain/40">
+            <span className="label-badge mb-1 text-porcelain/40">
               Contato
             </span>
             <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="text-porcelain/70 hover:text-electric">
               {PHONE_DISPLAY}
+            </a>
+            <a href={`tel:+${PHONE_NUMBER_SECONDARY}`} className="text-porcelain/70 hover:text-electric">
+              {PHONE_DISPLAY_SECONDARY}
             </a>
             <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="text-porcelain/70 hover:text-electric">
               WhatsApp
@@ -44,7 +49,7 @@ export default function Footer() {
           </div>
 
           <div className="flex flex-col gap-3 text-sm">
-            <span className="mb-1 font-heading text-xs uppercase tracking-[0.2em] text-porcelain/40">
+            <span className="label-badge mb-1 text-porcelain/40">
               Empresa
             </span>
             <span className="text-porcelain/70">
@@ -60,7 +65,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-16 flex flex-col items-center gap-4 border-t border-white/10 pt-8 text-center">
-          <p className="font-heading text-lg font-medium text-porcelain">
+          <p className="text-lg font-semibold text-white">
             Menos processos manuais. Mais inteligência para crescer.
           </p>
           <p className="text-xs text-porcelain/35">

@@ -34,7 +34,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
         onClick={() => setOpen((v) => !v)}
         className="flex w-full items-center justify-between gap-6 text-left"
       >
-        <span className="font-heading text-lg font-semibold text-porcelain md:text-xl">{q}</span>
+        <span className="text-lg font-semibold text-white md:text-xl">{q}</span>
         <span
           className={`shrink-0 font-mono text-2xl text-electric transition-transform duration-300 ${
             open ? "rotate-45" : ""
@@ -48,7 +48,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
         style={{ gridTemplateRows: open ? "1fr" : "0fr" }}
       >
         <div className="overflow-hidden">
-          <p className="mt-4 max-w-2xl text-porcelain/65">{a}</p>
+          <p className="body-text mt-4 max-w-2xl text-porcelain/65">{a}</p>
         </div>
       </div>
     </div>
@@ -57,12 +57,12 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 
 export default function FAQ() {
   return (
-    <section className="bg-ink px-6 py-28 md:px-14 lg:px-20">
+    <section className="bg-ink px-6 py-20 md:px-14 lg:px-20">
       <div className="mx-auto max-w-3xl">
-        <span className="mb-6 block font-mono text-xs uppercase tracking-[0.3em] text-electric">
+        <span className="eyebrow-tag mb-6 block text-electric">
           011 / Perguntas frequentes
         </span>
-        <RevealText as="h2" className="font-heading text-3xl font-bold text-porcelain md:text-4xl">
+        <RevealText as="h2" className="h-headline text-white">
           Perguntas frequentes
         </RevealText>
 

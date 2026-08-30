@@ -8,9 +8,6 @@ type FormValues = {
   nome: string;
   empresa: string;
   whatsapp: string;
-  cidade: string;
-  segmento: string;
-  contatosMensais: string;
   dificuldade: string;
 };
 
@@ -30,9 +27,6 @@ export default function Diagnostic() {
       `Nome: ${data.nome}`,
       `Empresa: ${data.empresa}`,
       `WhatsApp: ${data.whatsapp}`,
-      `Cidade: ${data.cidade}`,
-      `Segmento: ${data.segmento}`,
-      `Contatos/mês: ${data.contatosMensais}`,
       `Principal dificuldade: ${data.dificuldade}`,
     ].join("\n");
     window.open(
@@ -44,20 +38,20 @@ export default function Diagnostic() {
   return (
     <section
       id="diagnostico"
-      className="bg-graphite px-6 py-28 md:px-14 lg:px-20"
+      className="bg-graphite px-6 py-20 md:px-14 lg:px-20"
     >
       <div className="mx-auto grid max-w-6xl gap-16 md:grid-cols-[1fr_1.2fr]">
         <div>
-          <span className="mb-6 block font-mono text-xs uppercase tracking-[0.3em] text-electric">
+          <span className="eyebrow-tag mb-6 block text-electric">
             010 / Diagnóstico
           </span>
           <RevealText
             as="h2"
-            className="font-heading text-3xl font-bold text-porcelain md:text-4xl"
+            className="h-headline text-white"
           >
             Descubra onde sua empresa está perdendo tempo, oportunidades e dinheiro.
           </RevealText>
-          <p className="mt-6 max-w-md text-porcelain/65">
+          <p className="texto-apoio mt-6 max-w-md text-porcelain/65">
             Em uma conversa estratégica, analisamos seu atendimento, processo comercial e
             aquisição de clientes para identificar onde a inteligência artificial pode gerar
             impacto real.
@@ -66,10 +60,20 @@ export default function Diagnostic() {
             href={WHATSAPP_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-2 font-heading text-sm font-semibold text-whatsapp hover:underline"
+            className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-whatsapp hover:underline"
           >
             Prefiro conversar pelo WhatsApp →
           </a>
+
+          <div className="mt-8 rounded-2xl border border-electric/30 bg-electric/10 p-5">
+            <p className="label-badge flex items-center gap-2 font-bold text-electric-light">
+              <span aria-hidden="true">⏱</span> Garantia de implementação em 7 dias
+            </p>
+            <p className="body-text mt-2 text-porcelain/70">
+              Se em até 7 dias sua operação não estiver com o atendimento automatizado rodando, a
+              gente continua ajustando sem custo extra até funcionar.
+            </p>
+          </div>
         </div>
 
         <form
@@ -89,27 +93,10 @@ export default function Diagnostic() {
               {...register("empresa", { required: true })}
             />
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <input
-              className={FIELD_CLASS}
-              placeholder="WhatsApp"
-              {...register("whatsapp", { required: true })}
-            />
-            <input
-              className={FIELD_CLASS}
-              placeholder="Cidade"
-              {...register("cidade", { required: true })}
-            />
-          </div>
           <input
             className={FIELD_CLASS}
-            placeholder="Segmento"
-            {...register("segmento", { required: true })}
-          />
-          <input
-            className={FIELD_CLASS}
-            placeholder="Número médio de contatos mensais"
-            {...register("contatosMensais")}
+            placeholder="WhatsApp"
+            {...register("whatsapp", { required: true })}
           />
           <textarea
             className={FIELD_CLASS}
@@ -127,7 +114,7 @@ export default function Diagnostic() {
 
           <button
             type="submit"
-            className="mt-2 rounded-full bg-electric px-7 py-4 font-heading text-sm font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-porcelain"
+            className="mt-2 rounded-full bg-electric px-7 py-4 text-[0.82rem] font-semibold uppercase tracking-[0.06em] text-ink transition-colors hover:bg-porcelain"
           >
             Solicitar diagnóstico estratégico
           </button>

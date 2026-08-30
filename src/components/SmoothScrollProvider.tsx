@@ -16,11 +16,11 @@ export default function SmoothScrollProvider({
     if (prefersReducedMotion()) return;
 
     const lenis = new Lenis({
-      duration: 0.85,
+      duration: 0.6,
       easing: LENIS_EASING,
       smoothWheel: true,
       syncTouch: false,
-      wheelMultiplier: 0.9,
+      wheelMultiplier: 1.05,
       touchMultiplier: 1,
       infinite: false,
       autoRaf: false,

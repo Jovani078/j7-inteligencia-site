@@ -25,7 +25,7 @@ export default function Marquee({
         key={`${key}-${i}`}
         className={
           "marquee-pulse shrink-0 px-6 " +
-          (item === highlight ? "text-electric" : "text-porcelain/90")
+          (item === highlight ? "text-electric" : "marquee-text")
         }
         style={{ animationDelay: `${(i % 6) * 0.15}s` }}
       >
@@ -53,6 +53,16 @@ export default function Marquee({
         onUpdate: (self) => {
           direction = self.direction === 1 ? -1 : 1;
         },
+      });
+
+      // Base color is white; turns blue once the marquee's center crosses
+      // the viewport's center, reverts on the way back up (same
+      // reversible-on-scroll pattern as the rest of the site).
+      ScrollTrigger.create({
+        trigger: wrapRef.current,
+        start: "center center",
+        onEnter: () => wrapRef.current?.style.setProperty("--marquee-color", "#2f80ed"),
+        onLeaveBack: () => wrapRef.current?.style.setProperty("--marquee-color", "#ffffff"),
       });
     });
 

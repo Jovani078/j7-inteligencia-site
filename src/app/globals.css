@@ -22,10 +22,13 @@
   --color-deep-blue: var(--deep-blue);
   --color-whatsapp: var(--whatsapp);
 
-  --font-display: var(--font-display);
-  --font-heading: var(--font-heading);
-  --font-body: var(--font-body);
-  --font-mono: var(--font-mono);
+  /* Single sitewide typeface — every font-* Tailwind token maps onto the
+     same Montserrat variable (set on <html> in layout.tsx), so nothing in
+     the codebase needs to change class names to stop mixing typefaces. */
+  --font-display: var(--font-montserrat);
+  --font-heading: var(--font-montserrat);
+  --font-body: var(--font-montserrat);
+  --font-mono: var(--font-montserrat);
 }
 
 * {
@@ -75,6 +78,33 @@ h1, h2, h3, h4 {
   display: flex;
   width: max-content;
   will-change: transform;
+}
+
+/* White by default; ScrollTrigger flips --marquee-color to electric blue
+   once the marquee is centered in the viewport (see Marquee.tsx). The
+   transition here is what makes that flip read as a smooth fade instead of
+   a hard cut — GSAP only ever sets the variable, never tweens it. */
+.marquee-text {
+  color: var(--marquee-color, #ffffff);
+  transition: color 0.6s ease;
+}
+
+/* Positioning section's "ESCALÁVEL." word — stationary, gentle breathing
+   pulse instead of the old scroll-driven horizontal slide. */
+@keyframes escalavel-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.85;
+  }
+}
+
+.escalavel-pulse {
+  animation: escalavel-pulse 2.4s ease-in-out infinite;
 }
 
 /* Gentle opacity-only pulse on each marquee word (staggered per-item via
@@ -171,7 +201,7 @@ h1, h2, h3, h4 {
 
 .preloader-digits {
   font-family: var(--font-montserrat), "Montserrat", sans-serif;
-  font-weight: 900;
+  font-weight: 800;
   font-style: normal;
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1;
@@ -228,6 +258,91 @@ h1, h2, h3, h4 {
 
 .fold-copy {
   font-family: var(--font-montserrat), "Montserrat", sans-serif;
+}
+
+/* ============================================================
+   Sitewide typography system — one shared set of rules for every
+   section (001–011 + rodapé), so headline/destaque/eyebrow/stat/label
+   sizing and weight never drift between sections. All colors/sizes are
+   fixed here on purpose — components should stop carrying their own
+   Tailwind text-size/font-weight utilities for these roles and use these
+   classes instead.
+   ============================================================ */
+
+/* 1. Section headlines (h2 in practice — "H1" per spec is the visual
+   role, not a literal <h1> tag, since each section has one). */
+/* Color intentionally NOT set here — light-background sections (007, 009,
+   010) use dark text (text-ink), dark-background sections use white/
+   porcelain. Each usage keeps its own color utility so this class never
+   makes text invisible against its own section's background. */
+.h-headline {
+  font-family: var(--font-montserrat), "Montserrat", sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.1;
+}
+
+/* 2. The highlighted phrase inside a headline (consequence/action only —
+   never more than 5-7 words). Color left to text-electric/text-deep-blue
+   per section, same reasoning as .h-headline above. */
+.h-destaque {
+  font-family: var(--font-montserrat), "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: clamp(1.7rem, 3.4vw, 2.8rem);
+  line-height: 1.15;
+}
+
+/* 3. Subheadlines / support paragraphs under a headline. Color is left to
+   the existing text-porcelain/ink opacity utilities already applied per
+   section (light vs dark background), only weight/size/line-height are
+   standardized here. */
+.texto-apoio {
+  font-family: var(--font-montserrat), "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+/* 4. Eyebrows/tags (e.g. "002 / O PROBLEMA"). Color is NOT set here on
+   purpose — light-background sections use text-deep-blue instead of
+   text-electric for contrast (electric blue is ~3.9:1 on white, below AA
+   for text this small; deep-blue is ~10:1). Each usage keeps its own
+   color utility. */
+.eyebrow-tag {
+  font-family: var(--font-montserrat), "Montserrat", sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.72rem;
+}
+
+/* 6. Stat numbers (e.g. "+200 mil", "+800 horas"). Color left to the
+   usage site — Counters.tsx sits on a solid electric-blue background, so
+   its numbers are text-ink (dark), not blue-on-blue. */
+.stat-number {
+  font-family: var(--font-montserrat), "Montserrat", sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 4vw, 2.6rem);
+}
+
+/* 7. Small badges/pills (e.g. "SEM CONTROLE", "ATENDIMENTO 24/7"). Color
+   is left to the existing per-context utility (warm for "antes", cool
+   for "depois") — only weight/size/tracking are standardized here. */
+.label-badge {
+  font-family: var(--font-montserrat), "Montserrat", sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+}
+
+/* 8. General body copy (bio, FAQ, product-card descriptions). Color again
+   left to the existing per-background utility. */
+.body-text {
+  font-family: var(--font-montserrat), "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 0.98rem;
+  line-height: 1.55;
 }
 
 .fold-copy .magnetic-btn {
@@ -297,6 +412,57 @@ h1, h2, h3, h4 {
 
 .typing-dot:nth-child(3) {
   animation-delay: 0.3s;
+}
+
+/* Used inside ChatDemo's "AI" bubble once it sits on the light WhatsApp
+   wallpaper background — the default .typing-dot is porcelain (near-white)
+   and would be invisible on the now-white bubble it sits in. */
+.typing-dot--dark {
+  background: var(--ink);
+}
+
+/* ChatDemo "Resultado em tempo real" checklist — processing spinner, and
+   the pulsing badge once all 4 items have flipped to done. */
+@keyframes checklist-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.checklist-spin {
+  animation: checklist-spin 0.9s linear infinite;
+}
+
+@keyframes check-pop {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.check-pop {
+  animation: check-pop 0.35s ease-out;
+}
+
+@keyframes checklist-badge-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(47, 128, 237, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(47, 128, 237, 0);
+  }
+}
+
+.checklist-badge-pulse {
+  animation: checklist-badge-pulse 2.2s ease-in-out infinite;
 }
 
 /* J7 CRM section — hover-lift transition helper. The actual hover state
