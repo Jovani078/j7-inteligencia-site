@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
-import RevealText from "@/components/ui/RevealText";
 
 const ITEMS = [
   "Responder a mesma pergunta pela 20ª vez no dia",
@@ -53,12 +52,9 @@ export default function RoutineCleanup() {
         <span className="eyebrow-tag mb-6 block text-electric">
           003.5 / O que sai da sua rotina
         </span>
-        <RevealText
-          as="h2"
-          className="h-headline max-w-2xl text-white"
-        >
-          O que sai da sua rotina quando a J7 assume.
-        </RevealText>
+        <h2 className="h-headline max-w-2xl text-white">
+          O que sai da sua rotina quando a <span className="text-electric">J7</span> assume.
+        </h2>
         <p className="texto-apoio mt-6 max-w-2xl text-porcelain/65">
           Não é só o WhatsApp. É toda tarefa repetitiva que consome tempo do seu time todo dia —
           e que ninguém decidiu automatizar porque &ldquo;sempre foi assim&rdquo;.

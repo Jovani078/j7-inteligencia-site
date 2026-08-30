@@ -19,7 +19,7 @@ export default function Footer() {
                 <Image src="/j7-icon.png" alt="J7 Inteligência" fill sizes="48px" />
               </span>
               <p className="text-xl font-extrabold text-white">
-                J7 <span className="text-electric">Inteligência</span>
+                <span className="text-electric">J7</span> Inteligência
               </p>
             </div>
             <p className="body-text mt-4 max-w-xs text-porcelain/55">

@@ -89,7 +89,7 @@ export default function Header() {
             <Image src="/j7-icon.png" alt="J7 Inteligência" fill sizes="36px" priority />
           </span>
           <span className="text-lg font-extrabold tracking-tight text-white">
-            J7 <span className="text-electric">Inteligência</span>
+            <span className="text-electric">J7</span> Inteligência
           </span>
         </a>
 
