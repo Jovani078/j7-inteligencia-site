@@ -182,7 +182,7 @@ export default function Hero() {
     <section
       id="top"
       ref={sectionRef}
-      className="relative h-screen w-full overflow-hidden bg-ink"
+      className="relative min-h-screen w-full overflow-hidden bg-ink md:h-screen"
     >
       <div
         ref={circleRef}
@@ -246,7 +246,7 @@ export default function Hero() {
 
       <div
         ref={textRef}
-        className={`relative z-10 flex h-full flex-col items-center justify-center px-6 pt-28 text-center md:pt-32 ${montserrat.variable}`}
+        className={`relative z-10 flex min-h-screen flex-col items-center justify-center px-6 pt-28 text-center md:h-full md:pt-32 ${montserrat.variable}`}
       >
         <div className="mx-auto w-full max-w-3xl md:max-w-[78%] lg:max-w-4xl">
           <h1 ref={headlineRef} className="fold-headline break-words text-center text-white">

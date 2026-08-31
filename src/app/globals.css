@@ -228,11 +228,13 @@ h1, h2, h3, h4 {
   font-family: var(--font-montserrat), "Montserrat", sans-serif;
   font-weight: 800;
   font-style: normal;
-  /* Sized empirically (measured actual wrapped line counts at several
-     viewport widths, not estimated) so the full flowing sentence never
-     exceeds 3 lines, down to a 360px-wide phone. */
-  font-size: clamp(0.85rem, 3.8vw, 1rem);
-  line-height: 1.25;
+  /* Bumped up so the headline stays clearly bigger than the subheadline
+     on mobile (was clamp(0.85rem,3.8vw,1rem) — nearly the same size as
+     the subheadline's ~0.875rem, killing the hierarchy). Now wraps past
+     3 lines on narrow phones; the section is min-h-screen (not a fixed
+     h-screen) on mobile specifically so that growth never clips content. */
+  font-size: clamp(1.6rem, 7vw, 2rem);
+  line-height: 1.2;
   letter-spacing: -0.02em;
   text-transform: uppercase;
 }
@@ -301,6 +303,12 @@ h1, h2, h3, h4 {
   font-weight: 400;
   font-size: 1.05rem;
   line-height: 1.6;
+  /* Backstop for the typewriter-effect paragraphs (see typewriter.ts) —
+     SplitText's per-character spans should never break mid-word once
+     "words" grouping is in place, but this guards against it regardless. */
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: none;
 }
 
 /* 4. Eyebrows/tags (e.g. "002 / O PROBLEMA"). Color is NOT set here on

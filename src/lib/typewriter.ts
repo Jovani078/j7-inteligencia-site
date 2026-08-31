@@ -16,7 +16,12 @@ export function attachTypewriter(
   cursorEl: HTMLElement,
   opts?: { start?: string; end?: string }
 ) {
-  const split = SplitText.create(textEl, { type: "chars" });
+  // "chars" alone lets the browser insert a line break between any two
+  // character spans, including mid-word (e.g. "isso" splitting into
+  // "iss"/"o") — adding the "words" level wraps each word in its own
+  // inline-block box so the browser only ever breaks between words, same
+  // as normal text, while individual chars are still addressable below.
+  const split = SplitText.create(textEl, { type: "chars, words" });
   const chars = split.chars as HTMLElement[];
   gsap.set(chars, { opacity: 0 });
   cursorEl.classList.add("is-active");

@@ -30,7 +30,7 @@ export default function Positioning() {
       </div>
 
       <div className="relative z-10 mx-auto mt-4 w-max md:mt-0">
-        <span className="escalavel-pulse inline-block text-[5.3vw] font-extrabold uppercase leading-none tracking-tight text-electric">
+        <span className="escalavel-pulse inline-block text-3xl font-extrabold uppercase leading-tight tracking-tight text-electric md:text-5xl">
           ESCALÁVEL.
         </span>
       </div>

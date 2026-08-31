@@ -154,7 +154,7 @@ export default function Counters() {
               external
               className="stat-number text-ink"
             />
-            <span className="label-badge mt-3 max-w-[14ch] text-ink/70">
+            <span className="label-badge mt-3 max-w-[20ch] text-ink/70">
               {s.label}
             </span>
           </div>
