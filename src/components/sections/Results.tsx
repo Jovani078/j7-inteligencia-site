@@ -70,6 +70,8 @@ export default function Results() {
       <div className="mx-auto mt-12 max-w-6xl px-6 md:px-14 lg:px-20">
         <Carousel
           ariaLabel="Cases de resultados"
+          intervalMs={2800}
+          transitionMs={500}
           items={PROJECTS.map((project) => (
             <ProjectCard key={project.title} {...project} />
           ))}
