@@ -51,7 +51,7 @@ const localBusinessSchema = {
   aggregateRating: {
     "@type": "AggregateRating",
     ratingValue: "5.0",
-    reviewCount: "8",
+    reviewCount: "6",
   },
   sameAs: ["https://instagram.com/jovanicharao"],
 };

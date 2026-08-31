@@ -3,13 +3,44 @@ import MagneticButton from "@/components/ui/MagneticButton";
 import Carousel from "@/components/ui/Carousel";
 import { GOOGLE_REVIEWS_LINK } from "@/lib/constants";
 
-// TODO: substituir pelos textos reais das 8 avaliações do Google (nome, nota, texto, data)
-const REVIEWS = Array.from({ length: 8 }, (_, i) => ({
-  name: `[ nome real ${i + 1} ]`,
-  rating: 5,
-  text: "[ texto real da avaliação do Google a ser inserido aqui ]",
-  date: "[ data ]",
-}));
+const REVIEWS = [
+  {
+    name: "Willyam Eduardo Voges",
+    rating: 5,
+    text: "Ótimo atendimento, sabe treinar bem a IA para solucionar problemas.",
+    date: "Há 14 semanas",
+  },
+  {
+    name: "Gabriel Freitas",
+    rating: 5,
+    text: "o guri é bom tche",
+    date: "Há 14 semanas",
+  },
+  {
+    name: "Eduardo Badaró",
+    rating: 5,
+    text: "Ótimo trabalho recomendo",
+    date: "Há 14 semanas",
+  },
+  {
+    name: "Diego Pires",
+    rating: 5,
+    text: "Honestidade é tudo, manda super bem. Deixou meu atendimento humanizado, nem parece Inteligência artificial.",
+    date: "Há 14 semanas",
+  },
+  {
+    name: "Schubert Jonas",
+    rating: 5,
+    text: "Excelente profissional. Domina o que faz, entrega soluções modernas e está sempre atualizado com as melhores práticas do mercado.",
+    date: "Há 14 semanas",
+  },
+  {
+    name: "Alexandre Freitas",
+    rating: 5,
+    text: "Ótimo atendimento e ótimo trabalho feito por profissionais de qualidade. Indico a qualquer um.",
+    date: "Há 38 semanas",
+  },
+];
 
 function GoogleIcon() {
   return (
