@@ -7,6 +7,7 @@ type CarouselProps = {
   items: React.ReactNode[];
   ariaLabel: string;
   intervalMs?: number;
+  transitionMs?: number;
 };
 
 // Max cards ever visible at once (desktop breakpoint below) — this many
@@ -14,7 +15,7 @@ type CarouselProps = {
 // to slide into before the loop resets.
 const MAX_VISIBLE = 3;
 
-export default function Carousel({ items, ariaLabel, intervalMs = 4000 }: CarouselProps) {
+export default function Carousel({ items, ariaLabel, intervalMs = 4000, transitionMs = 600 }: CarouselProps) {
   const count = items.length;
   const trackRef = useRef<HTMLDivElement>(null);
   const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -113,7 +114,7 @@ export default function Carousel({ items, ariaLabel, intervalMs = 4000 }: Carous
           className="flex gap-6"
           style={{
             transform: `translateX(-${index * step}px)`,
-            transition: animate && !reduced ? "transform 0.6s ease" : "none",
+            transition: animate && !reduced ? `transform ${transitionMs}ms ease` : "none",
           }}
           onTransitionEnd={handleTransitionEnd}
         >

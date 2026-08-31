@@ -112,6 +112,8 @@ export default function GoogleReviews() {
         <div className="mt-16">
           <Carousel
             ariaLabel="Avaliações de clientes no Google"
+            intervalMs={2200}
+            transitionMs={450}
             items={REVIEWS.map((r, i) => (
               <ReviewCard key={i} {...r} />
             ))}
