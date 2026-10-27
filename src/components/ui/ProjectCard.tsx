@@ -65,11 +65,11 @@ export default function ProjectCard({ index, category, title, description, image
       data-cursor-text="VER"
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
-      className="flex h-full w-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-[0_20px_50px_-30px_rgba(0,0,0,0.25)]"
+      className="flex h-full w-full flex-col overflow-hidden rounded-2xl border border-border bg-white"
     >
       <div
         ref={imageRef}
-        className="relative aspect-[4/3] overflow-hidden border-b border-ink/10 bg-ink/[0.03]"
+        className="relative aspect-[4/3] overflow-hidden border-b border-border bg-bg"
       >
         <Image
           src={image}
@@ -81,13 +81,13 @@ export default function ProjectCard({ index, category, title, description, image
       </div>
       <div className="flex flex-1 flex-col gap-3 p-6">
         <div className="flex items-center justify-between">
-          <span className="label-badge text-deep-blue">
+          <span className="label-badge text-accent">
             {category}
           </span>
-          <span className="label-badge text-ink/30">{index}</span>
+          <span className="label-badge text-muted">{index}</span>
         </div>
-        <h3 className="text-xl font-extrabold text-ink">{title}</h3>
-        <p className="body-text mt-auto text-ink/65">{description}</p>
+        <h3 className="text-xl font-bold text-ink">{title}</h3>
+        <p className="body-text mt-auto">{description}</p>
       </div>
     </div>
   );

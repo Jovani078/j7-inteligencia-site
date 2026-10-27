@@ -1,73 +1,55 @@
 import Image from "next/image";
-import RevealText from "@/components/ui/RevealText";
 
-const AUTHORITY = [
+const FACTS = [
   "Mais de 3 anos no mercado digital",
-  "Mais de R$ 200 mil gerados com a agência em um ano",
-  "Mais de 800 horas de trabalho manual economizadas pelos times dos nossos clientes",
   "Experiência prática em atendimento, vendas e operação",
-  "Implementações personalizadas para empresas",
+  "Implementações personalizadas para cada empresa",
 ];
 
 export default function About() {
   return (
-    <section id="sobre" className="bg-graphite px-6 py-20 md:px-14 lg:px-20">
+    <section id="sobre" className="bg-bg px-6 py-20 md:px-10 md:py-28">
       <div className="mx-auto grid max-w-6xl gap-16 md:grid-cols-[0.85fr_1.15fr] md:items-center">
         <div className="relative mx-auto aspect-[1093/1380] w-full max-w-sm">
-          <div
-            className="absolute inset-0 -z-10 scale-90 rounded-full bg-electric/20 blur-3xl"
-            aria-hidden="true"
-          />
           <Image
             src="/jovani-charao.png"
             alt="Jovani Charão, fundador da J7 Inteligência"
             fill
             sizes="(min-width: 768px) 384px, 320px"
-            className="object-contain object-bottom drop-shadow-2xl"
+            className="object-contain object-bottom"
             priority
           />
         </div>
 
         <div>
-          <span className="eyebrow-tag mb-6 block text-electric">
-            008 / Quem está por trás
-          </span>
-          <RevealText
-            as="h2"
-            className="h-headline text-white"
-          >
-            Estratégia de quem conhece o atendimento do lado de dentro.
-          </RevealText>
+          <h2 className="h-headline">Tecnologia aplicada à rotina de quem empreende.</h2>
 
-          <div className="body-text mt-8 flex flex-col gap-4 text-porcelain/70">
+          <div className="body-text mt-8 flex flex-col gap-4">
             <p>
-              Sou <strong className="text-white">Jovani Charão</strong>, fundador da J7
-              Inteligência.
+              Sou <strong className="font-semibold text-ink">Jovani Charão</strong>, fundador da
+              J7 Inteligência.
             </p>
             <p>
-              Antes de trabalhar com tecnologia e estratégia digital, passei mais de quatro anos
-              atuando diretamente com refrigeração de construção civil. Conheci de perto a
-              realidade de quem precisa atender clientes, enviar orçamentos, executar o serviço e
-              ainda encontrar tempo para vender.
+              Antes de trabalhar com tecnologia, passei mais de quatro anos atuando diretamente
+              com refrigeração na construção civil. Conheci de perto a realidade de quem precisa
+              atender clientes, enviar orçamentos, executar o serviço e ainda encontrar tempo para
+              vender.
             </p>
             <p>
-              A transição para o digital mudou minha visão sobre negócios. Percebi que muitas
-              empresas não precisam apenas de mais divulgação — precisam de processos melhores
-              para transformar oportunidades em vendas.
+              Essa experiência mudou minha forma de olhar para negócios: muitas empresas não
+              precisam apenas de mais divulgação, precisam de uma operação de atendimento mais
+              organizada.
             </p>
             <p>
-              Hoje, aplico inteligência artificial, automação e aquisição de clientes para ajudar
-              negócios a crescerem com uma operação mais organizada, rápida e inteligente.
+              Hoje aplico inteligência artificial e automação para ajudar empresas a organizarem o
+              atendimento e a implementação da própria operação.
             </p>
           </div>
 
-          <ul className="mt-10 grid gap-4 sm:grid-cols-2">
-            {AUTHORITY.map((item) => (
-              <li
-                key={item}
-                className="body-text flex items-start gap-2 border-l-2 border-electric/50 pl-3 text-porcelain/70"
-              >
-                <span aria-hidden="true" className="text-electric">✓</span> {item}
+          <ul className="mt-8 flex flex-col gap-3">
+            {FACTS.map((item) => (
+              <li key={item} className="body-text flex items-start gap-2 border-l-2 border-accent pl-3">
+                {item}
               </li>
             ))}
           </ul>

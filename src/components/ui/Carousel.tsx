@@ -135,7 +135,7 @@ export default function Carousel({ items, ariaLabel, intervalMs = 4000, transiti
               aria-label={`Ir para o item ${i + 1}`}
               onClick={() => goTo(i)}
               className={`h-2 rounded-full transition-all duration-300 ${
-                index % count === i ? "w-6 bg-electric" : "w-2 bg-white/20 hover:bg-white/40"
+                index % count === i ? "w-6 bg-accent" : "w-2 bg-ink/15 hover:bg-ink/30"
               }`}
             />
           ))}

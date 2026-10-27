@@ -1,21 +1,15 @@
 import Header from "@/components/Header";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 import Hero from "@/components/sections/Hero";
-import MarqueeSection from "@/components/sections/MarqueeSection";
-import Rupture from "@/components/sections/Rupture";
-import SolutionCentral from "@/components/sections/SolutionCentral";
-import RoutineCleanup from "@/components/sections/RoutineCleanup";
-import CrmProduct from "@/components/sections/CrmProduct";
-import Counters from "@/components/sections/Counters";
-import HowItWorks from "@/components/sections/HowItWorks";
+import Benefits from "@/components/sections/Benefits";
 import ChatDemo from "@/components/sections/ChatDemo";
+import CrmProduct from "@/components/sections/CrmProduct";
+import HowItWorks from "@/components/sections/HowItWorks";
 import Results from "@/components/sections/Results";
-import About from "@/components/sections/About";
 import GoogleReviews from "@/components/sections/GoogleReviews";
-import Positioning from "@/components/sections/Positioning";
+import About from "@/components/sections/About";
 import Diagnostic from "@/components/sections/Diagnostic";
 import FAQ from "@/components/sections/FAQ";
-import FinalCTA from "@/components/sections/FinalCTA";
 import Footer from "@/components/sections/Footer";
 
 export default function Home() {
@@ -24,21 +18,15 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <MarqueeSection />
-        <Rupture />
-        <SolutionCentral />
-        <RoutineCleanup />
-        <CrmProduct />
-        <Counters />
-        <HowItWorks />
+        <Benefits />
         <ChatDemo />
+        <CrmProduct />
+        <HowItWorks />
         <Results />
         <About />
         <GoogleReviews />
-        <Positioning />
         <Diagnostic />
         <FAQ />
-        <FinalCTA />
       </main>
       <Footer />
       <FloatingWhatsApp />

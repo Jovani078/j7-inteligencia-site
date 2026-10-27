@@ -1,4 +1,3 @@
-import RevealText from "@/components/ui/RevealText";
 import MagneticButton from "@/components/ui/MagneticButton";
 import Carousel from "@/components/ui/Carousel";
 import { GOOGLE_REVIEWS_LINK } from "@/lib/constants";
@@ -67,41 +66,33 @@ function GoogleIcon() {
 
 function ReviewCard({ name, rating, text, date }: (typeof REVIEWS)[number]) {
   return (
-    <div className="flex h-full flex-col rounded-3xl border border-ink/10 bg-white p-8 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.18)]">
+    <div className="flex h-full flex-col rounded-2xl border border-border bg-white p-8">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-electric/15 font-extrabold text-electric-strong">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/15 font-extrabold text-accent">
             {name.replace(/[^\p{L}]/gu, "").slice(0, 1) || "?"}
           </div>
           <div>
             <p className="text-sm font-semibold text-ink">{name}</p>
-            <p className="label-badge text-ink/40">{date}</p>
+            <p className="label-badge text-muted">{date}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-deep-blue">{"★".repeat(rating)}</span>
+          <span className="text-accent">{"★".repeat(rating)}</span>
           <GoogleIcon />
         </div>
       </div>
-      <p className="body-text mt-5 text-ink/70">{text}</p>
+      <p className="body-text mt-5">{text}</p>
     </div>
   );
 }
 
 export default function GoogleReviews() {
   return (
-    <section className="bg-porcelain px-6 py-20 md:px-14 lg:px-20">
+    <section className="bg-bg px-6 py-20 md:px-10 md:py-28">
       <div className="mx-auto max-w-6xl">
-        <span className="eyebrow-tag mb-6 block text-deep-blue">
-          009 / Prova social
-        </span>
         <div className="flex flex-wrap items-end justify-between gap-6">
-          <RevealText
-            as="h2"
-            className="h-headline max-w-xl text-ink"
-          >
-            Quem trabalha conosco percebe a diferença.
-          </RevealText>
+          <h2 className="h-headline max-w-xl">Quem trabalha conosco percebe a diferença.</h2>
           <MagneticButton href={GOOGLE_REVIEWS_LINK} variant="secondary" external>
             Ver avaliações no Google
           </MagneticButton>

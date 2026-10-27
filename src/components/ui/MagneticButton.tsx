@@ -13,10 +13,9 @@ type MagneticButtonProps = {
 };
 
 const variants = {
-  primary:
-    "bg-electric text-porcelain hover:bg-electric-strong hover:shadow-[0_0_20px_rgba(47,128,237,0.35)]",
+  primary: "bg-ink text-white hover:bg-black",
   secondary:
-    "bg-transparent text-ink border border-ink/20 hover:border-electric-strong hover:text-electric-strong",
+    "bg-transparent text-ink border border-border hover:border-ink",
   whatsapp: "bg-whatsapp text-ink hover:brightness-110",
 };
 

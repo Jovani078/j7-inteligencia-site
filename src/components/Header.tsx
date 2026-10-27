@@ -2,94 +2,50 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { gsap, prefersReducedMotion } from "@/lib/gsap";
-import MagneticButton from "@/components/ui/MagneticButton";
-import { usePreload } from "@/lib/preload-context";
 import { WHATSAPP_LINK } from "@/lib/constants";
-import { lenisHandle, headerOffset } from "@/lib/lenis";
 
 const NAV_LINKS = [
-  { label: "Soluções", href: "#solucoes" },
+  { label: "Solução", href: "#solucao" },
   { label: "Como funciona", href: "#como-funciona" },
-  { label: "Resultados", href: "#resultados" },
+  { label: "J7 CRM", href: "#crm" },
   { label: "Sobre", href: "#sobre" },
-  { label: "Diagnóstico", href: "#diagnostico" },
 ];
 
 export default function Header() {
-  const { ready } = usePreload();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => setScrolled(window.scrollY > 24);
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Menu enters last, after Hero's own headline/CTA/side-indicator sequence
-  // has finished — see Hero.tsx's timeline for the durations this delay
-  // needs to clear (~2.6s at reduced-motion-off, now that the video is
-  // part of the same fade group).
-  useEffect(() => {
-    if (!ready || !headerRef.current) return;
-    if (prefersReducedMotion()) {
-      gsap.set(headerRef.current, { y: 0, opacity: 1 });
-      return;
-    }
-    // gsap.fromTo() only applies the "from" state once the tween actually
-    // starts playing — with a delay, that means the header sits fully
-    // visible at its final position for the entire delay window first
-    // (a well-known GSAP gotcha). Setting the hidden state explicitly and
-    // upfront avoids that flash/overlap with the badge below it.
-    gsap.set(headerRef.current, { y: -40, opacity: 0 });
-    gsap.to(headerRef.current, { y: 0, opacity: 1, duration: 1, ease: "power3.out", delay: 2.6 });
-  }, [ready]);
-
   useEffect(() => {
     document.body.classList.toggle("no-scroll", menuOpen);
+    return () => document.body.classList.remove("no-scroll");
   }, [menuOpen]);
-
-  // Route anchor-link clicks through Lenis so the jump is smooth and stays
-  // in sync with its virtual scroll position, instead of the browser's
-  // native instant hash jump (which desyncs Lenis until its next tick).
-  // Falls back to the native jump when Lenis doesn't exist (reduced motion).
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    const lenis = lenisHandle.current;
-    if (!lenis) return;
-    e.preventDefault();
-    lenis.scrollTo(href, { offset: -headerOffset(), duration: 0.8 });
-  };
 
   return (
     <header
       ref={headerRef}
-      // Starts hidden via plain CSS opacity (not JS) so there's no window —
-      // however brief — where it renders fully visible before an effect
-      // gets a chance to hide it. That window is exactly what let it flash
-      // on top of the badge while still racing the preloader's own
-      // fade-out. (The y-slide is GSAP-only, via `transform` — a static
-      // Tailwind `translate-y` class here would use the separate CSS
-      // `translate` property and never get cleared by GSAP's `transform`,
-      // leaving the header permanently offset.) GSAP's delayed reveal
-      // below overrides the opacity via an inline style.
-      className={`fixed top-0 left-0 right-0 z-50 opacity-0 transition-colors duration-500 ${
-        scrolled ? "bg-ink/95 backdrop-blur-md border-b border-white/5" : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 border-b transition-colors duration-300 ${
+        scrolled ? "border-border bg-bg/90 backdrop-blur-md" : "border-transparent bg-bg/0"
       }`}
     >
-      <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-5 md:px-10">
-        <a
-          href="#top"
-          onClick={(e) => handleNavClick(e, "#top")}
-          className="flex items-center gap-2.5"
-        >
-          <span className="relative h-9 w-9 shrink-0">
-            <Image src="/j7-icon.png" alt="J7 Inteligência" fill sizes="36px" priority />
-          </span>
-          <span className="text-lg font-extrabold tracking-tight text-white">
-            <span className="text-electric">J7</span> Inteligência
+      <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-4 md:px-10">
+        <a href="#top" className="flex items-center gap-2.5">
+          <span className="relative h-9 w-24 shrink-0">
+            <Image
+              src="/j7-logo.png"
+              alt="J7 Inteligência"
+              fill
+              sizes="96px"
+              priority
+              className="object-contain object-left"
+            />
           </span>
         </a>
 
@@ -98,32 +54,39 @@ export default function Header() {
             <a
               key={link.href}
               href={link.href}
-              onClick={(e) => handleNavClick(e, link.href)}
-              className="group relative text-sm font-medium text-porcelain/85 transition-colors hover:text-white"
+              className="group relative text-sm font-medium text-ink/75 transition-colors hover:text-ink"
             >
               {link.label}
-              <span className="absolute -bottom-1 left-0 h-px w-0 bg-electric transition-all duration-300 group-hover:w-full" />
+              <span className="absolute -bottom-1 left-0 h-px w-0 bg-accent transition-all duration-300 group-hover:w-full" />
             </a>
           ))}
         </nav>
 
+        <a
+          href="#diagnostico"
+          className="hidden rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent lg:inline-flex"
+        >
+          Agendar diagnóstico
+        </a>
+
         <button
           onClick={() => setMenuOpen((v) => !v)}
-          aria-label="Abrir menu"
+          aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
+          aria-expanded={menuOpen}
           className="flex flex-col gap-1.5 lg:hidden"
         >
           <span
-            className={`block h-px w-7 bg-porcelain transition-transform duration-300 ${
+            className={`block h-px w-7 bg-ink transition-transform duration-300 ${
               menuOpen ? "translate-y-[7px] rotate-45" : ""
             }`}
           />
           <span
-            className={`block h-px w-7 bg-porcelain transition-opacity duration-300 ${
+            className={`block h-px w-7 bg-ink transition-opacity duration-300 ${
               menuOpen ? "opacity-0" : ""
             }`}
           />
           <span
-            className={`block h-px w-7 bg-porcelain transition-transform duration-300 ${
+            className={`block h-px w-7 bg-ink transition-transform duration-300 ${
               menuOpen ? "-translate-y-[7px] -rotate-45" : ""
             }`}
           />
@@ -131,27 +94,40 @@ export default function Header() {
       </div>
 
       <div
-        className={`fixed inset-0 z-40 flex flex-col items-center justify-center gap-8 bg-ink transition-all duration-500 lg:hidden ${
+        className={`fixed inset-0 z-40 flex flex-col items-center justify-center gap-8 bg-bg transition-opacity duration-300 lg:hidden ${
           menuOpen ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
+        aria-hidden={!menuOpen}
       >
-        {NAV_LINKS.map((link, i) => (
+        {NAV_LINKS.map((link) => (
           <a
             key={link.href}
             href={link.href}
-            onClick={(e) => {
-              setMenuOpen(false);
-              handleNavClick(e, link.href);
-            }}
-            className="text-3xl font-extrabold text-white transition-transform"
-            style={{ transitionDelay: `${i * 60}ms` }}
+            onClick={() => setMenuOpen(false)}
+            tabIndex={menuOpen ? 0 : -1}
+            className="text-2xl font-bold text-ink"
           >
             {link.label}
           </a>
         ))}
-        <MagneticButton href={WHATSAPP_LINK} variant="whatsapp" external className="mt-4">
-          Falar com um especialista
-        </MagneticButton>
+        <a
+          href="#diagnostico"
+          onClick={() => setMenuOpen(false)}
+          tabIndex={menuOpen ? 0 : -1}
+          className="mt-2 rounded-full bg-ink px-6 py-3 text-sm font-semibold text-white"
+        >
+          Agendar diagnóstico
+        </a>
+        <a
+          href={WHATSAPP_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => setMenuOpen(false)}
+          tabIndex={menuOpen ? 0 : -1}
+          className="text-sm font-medium text-whatsapp"
+        >
+          Conversar com a J7
+        </a>
       </div>
     </header>
   );

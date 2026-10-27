@@ -8,27 +8,22 @@ const STEPS = [
   {
     n: "01",
     title: "Diagnóstico",
-    desc: "Entendemos como sua empresa vende, atende e acompanha oportunidades.",
+    desc: "Entendemos como chegam os contatos e onde o atendimento trava.",
   },
   {
     n: "02",
-    title: "Estratégia",
-    desc: "Definimos quais processos devem ser automatizados e quais precisam continuar humanos.",
+    title: "Configuração",
+    desc: "Adaptamos as instruções e os fluxos ao seu negócio.",
   },
   {
     n: "03",
-    title: "Implementação",
-    desc: "Construímos os agentes, páginas, integrações e fluxos necessários.",
+    title: "Validação",
+    desc: "Testamos as conversas e os encaminhamentos antes de ativar.",
   },
   {
     n: "04",
-    title: "Validação",
-    desc: "Testamos cada etapa antes de colocar a estrutura em produção.",
-  },
-  {
-    n: "05",
-    title: "Otimização",
-    desc: "Analisamos as conversas, corrigimos gargalos e melhoramos a operação.",
+    title: "Acompanhamento",
+    desc: "Ajustamos o atendimento conforme o uso e o escopo contratado.",
   },
 ];
 
@@ -68,16 +63,12 @@ export default function HowItWorks() {
       steps.forEach((step) => {
         gsap.fromTo(
           step,
-          { opacity: 0.25, x: -20 },
+          { opacity: 0.3, x: -16 },
           {
             opacity: 1,
             x: 0,
             duration: 0.5,
-            scrollTrigger: {
-              trigger: step,
-              start: "top 65%",
-              toggleActions: "play none none reverse",
-            },
+            scrollTrigger: { trigger: step, start: "top 65%", toggleActions: "play none none reverse" },
           }
         );
 
@@ -96,46 +87,35 @@ export default function HowItWorks() {
   }, []);
 
   return (
-    <section
-      id="como-funciona"
-      className="bg-graphite px-6 py-20 md:px-14 lg:px-20"
-    >
+    <section id="como-funciona" className="bg-bg px-6 py-20 md:px-14 lg:px-20">
       <div className="mx-auto max-w-4xl">
-        <span className="eyebrow-tag mb-6 block text-electric">
-          005 / O processo
-        </span>
-        <p className="max-w-xl text-sm text-porcelain/55">
-          Você não precisa gerenciar esse projeto. A gente cuida de cada etapa e te mantém
-          informado, sem virar mais uma tarefa na sua lista.
-        </p>
-        <RevealText
-          as="h2"
-          className="h-headline mt-4 text-white"
-        >
-          Da análise à operação funcionando.
+        <RevealText as="h2" className="h-headline text-ink">
+          Da sua rotina à operação funcionando.
         </RevealText>
 
-        <div ref={containerRef} className="relative mt-20 flex flex-col gap-16 pl-12">
-          <div className="absolute left-[7px] top-2 h-[calc(100%-1rem)] w-px bg-white/10" />
+        <div ref={containerRef} className="relative mt-16 flex flex-col gap-14 pl-12">
+          <div className="absolute left-[7px] top-2 h-[calc(100%-1rem)] w-px bg-border" />
           <div
             ref={fillRef}
-            className="absolute left-[7px] top-2 h-[calc(100%-1rem)] w-px origin-top bg-electric"
+            className="absolute left-[7px] top-2 h-[calc(100%-1rem)] w-px origin-top bg-accent"
             style={{ transform: "scaleY(0)" }}
           />
           {STEPS.map((step) => (
             <div key={step.n} data-step className="relative">
               <span
                 data-dot
-                className="absolute -left-[3.15rem] top-1.5 h-3.5 w-3.5 rounded-full border border-white/20 bg-graphite transition-colors duration-500"
+                className="absolute -left-[3.15rem] top-1.5 h-3.5 w-3.5 rounded-full border border-border bg-bg transition-colors duration-500 [&.dot-active]:border-accent [&.dot-active]:bg-accent"
               />
-              <span className="label-badge text-porcelain/40">Etapa {step.n}</span>
-              <h3 className="mt-2 text-2xl font-extrabold text-white md:text-3xl">
-                {step.title}
-              </h3>
-              <p className="body-text mt-2 max-w-lg text-porcelain/60">{step.desc}</p>
+              <span className="label-badge text-muted">Etapa {step.n}</span>
+              <h3 className="mt-2 text-xl font-bold text-ink md:text-2xl">{step.title}</h3>
+              <p className="body-text mt-2 max-w-lg">{step.desc}</p>
             </div>
           ))}
         </div>
+
+        <p className="body-text mt-12 max-w-xl">
+          O prazo é definido após o diagnóstico, conforme as integrações e o escopo.
+        </p>
       </div>
     </section>
   );
